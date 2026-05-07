@@ -1,0 +1,13 @@
+{{- if .Values.azure.resourceGroup.enabled }}
+apiVersion: resources.azure.com/v1api20200601
+kind: ResourceGroup
+metadata:
+  name: {{ .Values.azure.resourceGroup.name }}
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    {{- include "backstage.labels" . | nindent 4 }}
+spec:
+  location: {{ .Values.azure.resourceGroup.location }}
+  tags:
+    {{- toYaml .Values.azure.resourceGroup.tags | nindent 4 }}
+{{- end }}

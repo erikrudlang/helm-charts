@@ -1,0 +1,17 @@
+{{- if .Values.workloadIdentity.enabled }}
+apiVersion: resources.azure.com/v1api20200601
+kind: ResourceGroup
+metadata:
+  name: {{ .Values.workloadIdentity.resourceGroup }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "azure-microservice.labels" . | nindent 4 }}
+spec:
+  location: {{ .Values.workloadIdentity.location }}
+  tags:
+    managed-by: "helm"
+    chart: {{ include "azure-microservice.chart" . }}
+    {{- with .Values.workloadIdentity.tags }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+{{- end }}

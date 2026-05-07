@@ -1,0 +1,58 @@
+{{- if .Values.postgresql.enabled }}
+apiVersion: dbforpostgresql.azure.com/v20250801
+kind: FlexibleServer
+metadata:
+  name: {{ .Values.postgresql.serverName }}
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    {{- include "backstage.labels" . | nindent 4 }}
+spec:
+  owner:
+    name: {{ .Values.azure.resourceGroup.name }}
+  location: {{ .Values.postgresql.location }}
+  sku:
+    name: {{ .Values.postgresql.sku.name }}
+    tier: {{ .Values.postgresql.sku.tier }}
+  version: {{ .Values.postgresql.version | quote }}
+  administratorLogin: {{ .Values.postgresql.administratorLogin }}
+  administratorLoginPassword:
+    name: postgres-admin-secret
+    key: password
+  storage:
+    storageSizeGB: {{ .Values.postgresql.storage.storageSizeGB }}
+  backup:
+    backupRetentionDays: {{ .Values.postgresql.backup.backupRetentionDays }}
+    geoRedundantBackup: {{ .Values.postgresql.backup.geoRedundantBackup }}
+  highAvailability:
+    mode: {{ .Values.postgresql.highAvailability.mode }}
+  network:
+    publicNetworkAccess: {{ .Values.postgresql.network.publicNetworkAccess }}
+---
+apiVersion: dbforpostgresql.azure.com/v1api20220120preview
+kind: FlexibleServersDatabase
+metadata:
+  name: {{ .Values.postgresql.database.name }}
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    {{- include "backstage.labels" . | nindent 4 }}
+spec:
+  owner:
+    name: {{ .Values.postgresql.serverName }}
+  charset: {{ .Values.postgresql.database.charset }}
+  collation: {{ .Values.postgresql.database.collation }}
+---
+{{- if .Values.postgresql.firewall.allowAzureServices }}
+apiVersion: dbforpostgresql.azure.com/v1api20220120preview
+kind: FlexibleServersFirewallRule
+metadata:
+  name: allow-azure-services
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    {{- include "backstage.labels" . | nindent 4 }}
+spec:
+  owner:
+    name: {{ .Values.postgresql.serverName }}
+  startIpAddress: 0.0.0.0
+  endIpAddress: 0.0.0.0
+{{- end }}
+{{- end }}

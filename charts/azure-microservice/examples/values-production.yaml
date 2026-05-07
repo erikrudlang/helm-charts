@@ -1,0 +1,193 @@
+# Complete Production Setup with All Features
+
+This values file demonstrates all available features enabled.
+
+```yaml
+# values-production.yaml
+
+replicaCount: 3
+
+image:
+  repository: myacr.azurecr.io/myapp
+  pullPolicy: Always
+  tag: "v1.2.3"
+
+# Azure Workload Identity
+workloadIdentity:
+  enabled: true
+  resourceGroup: "myapp-prod-rg"
+  location: "northeurope"
+  identityName: "myapp-prod-identity"
+  oidcIssuerUrl: "https://northeurope.oic.prod-aks.azure.com/00000000-0000-0000-0000-000000000000/00000000-0000-0000-0000-000000000000/"
+  tags:
+    environment: production
+    cost-center: engineering
+    managed-by: helm
+
+serviceAccount:
+  create: true
+  automount: true
+
+podAnnotations:
+  prometheus.io/scrape: "true"
+  prometheus.io/port: "9090"
+  prometheus.io/path: "/metrics"
+
+podLabels:
+  environment: production
+  team: backend
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+  hosts:
+    - host: api.mycompany.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: api-mycompany-tls
+      hosts:
+        - api.mycompany.com
+
+resources:
+  requests:
+    memory: "512Mi"
+    cpu: "500m"
+  limits:
+    memory: "1Gi"
+    cpu: "1000m"
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 20
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 2
+
+env:
+  - name: ASPNETCORE_ENVIRONMENT
+    value: "Production"
+  - name: PORT
+    value: "8080"
+  - name: LOG_LEVEL
+    value: "info"
+
+configMap:
+  enabled: true
+  data:
+    APP_NAME: "MyApp"
+    FEATURE_FLAG_ENABLED: "true"
+    MAX_CONNECTIONS: "100"
+
+# Azure Key Vault
+azureKeyVault:
+  enabled: true
+  tenantId: "00000000-0000-0000-0000-000000000000"
+  keyVaultName: "myapp-prod-kv"
+  secrets:
+    - secretName: "database-connection-string"
+      objectName: "db-connection-string"
+      objectType: "secret"
+    - secretName: "api-key"
+      objectName: "external-api-key"
+      objectType: "secret"
+    - secretName: "jwt-signing-key"
+      objectName: "jwt-key"
+      objectType: "secret"
+
+# Azure Application Insights
+azureApplicationInsights:
+  enabled: true
+  instrumentationKey: "00000000-0000-0000-0000-000000000000"
+  connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000;IngestionEndpoint=https://northeurope-1.in.applicationinsights.azure.com/"
+
+# Metrics
+metrics:
+  enabled: true
+  port: 9090
+  path: /metrics
+  serviceMonitor:
+    enabled: true
+    interval: 30s
+
+# Network Policy
+networkPolicy:
+  enabled: true
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            name: ingress-nginx
+      ports:
+      - protocol: TCP
+        port: 8080
+  egress:
+    - to:
+      - namespaceSelector: {}
+      ports:
+      - protocol: TCP
+        port: 443
+      - protocol: TCP
+        port: 5432  # PostgreSQL
+      - protocol: TCP
+        port: 6379  # Redis
+
+# Node selection
+nodeSelector:
+  kubernetes.io/os: linux
+  agentpool: userpool
+
+# Pod anti-affinity for high availability
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 100
+      podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          - key: app.kubernetes.io/name
+            operator: In
+            values:
+            - azure-microservice
+        topologyKey: kubernetes.io/hostname
+
+# Volumes
+volumes:
+  - name: tmp
+    emptyDir: {}
+  - name: cache
+    emptyDir:
+      sizeLimit: 1Gi
+
+volumeMounts:
+  - name: tmp
+    mountPath: /tmp
+  - name: cache
+    mountPath: /app/cache
+```
+
+## Installation
+
+```bash
+helm install myapp ../../azure-microservice \
+  --namespace myapp-prod \
+  --create-namespace \
+  --values values-production.yaml
+```

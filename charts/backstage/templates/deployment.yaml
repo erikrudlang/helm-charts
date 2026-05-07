@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "backstage.fullname" . }}
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    {{- include "backstage.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "backstage.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "backstage.selectorLabels" . | nindent 8 }}
+        {{- with .Values.commonLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.service.targetPort }}
+          name: http
+        env:
+        - name: POSTGRES_HOST
+          valueFrom:
+            secretKeyRef:
+              name: backstage-postgres-connection
+              key: POSTGRES_HOST
+        - name: POSTGRES_PORT
+          valueFrom:
+            secretKeyRef:
+              name: backstage-postgres-connection
+              key: POSTGRES_PORT
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: backstage-postgres-connection
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: backstage-postgres-connection
+              key: POSTGRES_PASSWORD
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: backstage-postgres-connection
+              key: POSTGRES_DB
+        - name: AUTH_ORG_APP_ID
+          valueFrom:
+            secretKeyRef:
+              name: github-app-credentials
+              key: AUTH_ORG_APP_ID
+        - name: AUTH_ORG_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: github-app-credentials
+              key: AUTH_ORG_CLIENT_ID
+        - name: AUTH_ORG_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: github-app-credentials
+              key: AUTH_ORG_CLIENT_SECRET
+        - name: AUTH_ORG1_PRIVATE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: github-app-credentials
+              key: AUTH_ORG1_PRIVATE_KEY
+        - name: AUTH_ORG_WEBHOOK_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: github-app-credentials
+              key: AUTH_ORG_WEBHOOK_SECRET
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}

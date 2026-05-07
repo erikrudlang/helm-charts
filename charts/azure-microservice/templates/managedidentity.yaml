@@ -1,0 +1,17 @@
+{{- if .Values.workloadIdentity.enabled }}
+apiVersion: managedidentity.azure.com/v1api20181130
+kind: UserAssignedIdentity
+metadata:
+  name: {{ .Values.workloadIdentity.identityName | default (include "azure-microservice.fullname" .) }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "azure-microservice.labels" . | nindent 4 }}
+spec:
+  location: {{ .Values.workloadIdentity.location }}
+  owner:
+    name: {{ .Values.workloadIdentity.resourceGroup }}
+  {{- if .Values.workloadIdentity.tags }}
+  tags:
+    {{- toYaml .Values.workloadIdentity.tags | nindent 4 }}
+  {{- end }}
+{{- end }}
