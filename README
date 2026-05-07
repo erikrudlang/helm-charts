@@ -1,0 +1,47 @@
+Azure setup:
+
+export AZURE_SUBSCRIPTION_ID=33ab291e-4e99-4e5f-861a-a48b33c8261e
+export AZURE_TENANT_ID=8982fdb6-6593-4f75-b60d-dff0e61525a7
+export AZURE_RESOURCE_GROUP=github-rg
+export AZURE_ACR_RESOURCE_GROUP=rg-aks-demo
+export AZURE_LOCATION=northeurope
+export AZURE_ACR_NAME=acraksdemo
+export MANAGED_IDENTITY_NAME=githubpe
+
+
+Workload identity federation:
+
+Create user-assigned identity:
+
+az identity create \
+  --name githubpe \
+  --resource-group "${AZURE_RESOURCE_GROUP}" \
+  --location "${AZURE_LOCATION}"
+
+Create federation:
+
+az identity federated-credential create \
+  --name "aks-labs-capz-manager-credential" \
+  --identity-name "githubpe" \
+  --resource-group "${AZURE_RESOURCE_GROUP}" \
+  --issuer "https://token.actions.githubusercontent.com" \
+  --subject "repo:erikrudlang/helm-charts:ref:refs/heads/main" \
+  --audiences "api://AzureADTokenExchange"
+
+Get values:
+  export AZURE_CLIENT_ID=$(az identity show \
+  --name "${MANAGED_IDENTITY_NAME}" \
+  --resource-group "${AZURE_RESOURCE_GROUP}" \
+  --query "clientId" -o tsv)
+
+  export PRINCIPAL_ID=$(az identity show \
+  --name "${MANAGED_IDENTITY_NAME}" \
+  --resource-group "${AZURE_RESOURCE_GROUP}" \
+  --query "principalId" -o tsv)
+
+Assign role:
+
+az role assignment create \
+  --assignee "${PRINCIPAL_ID}" \
+  --role "AcrPush" \
+  --scope "/subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/${AZURE_ACR_RESOURCE_GROUP}/providers/Microsoft.ContainerRegistry/registries/${AZURE_ACR_NAME}"
