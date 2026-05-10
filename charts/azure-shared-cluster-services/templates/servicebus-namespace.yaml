@@ -1,0 +1,31 @@
+{{- if .Values.sharedServiceBus.enabled }}
+apiVersion: servicebus.azure.com/v1api20211101
+kind: Namespace
+metadata:
+  name: {{ .Values.sharedServiceBus.name }}
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    {{- include "azure-shared-cluster-services.labels" . | nindent 4 }}
+spec:
+  location: {{ .Values.global.location }}
+  owner:
+    name: {{ .Values.global.resourceGroup }}
+  sku:
+    name: {{ .Values.sharedServiceBus.sku }}
+    {{- if and (eq .Values.sharedServiceBus.sku "Premium") .Values.sharedServiceBus.capacity }}
+    capacity: {{ .Values.sharedServiceBus.capacity }}
+    {{- end }}
+  {{- if and (eq .Values.sharedServiceBus.sku "Premium") .Values.sharedServiceBus.zoneRedundant }}
+  zoneRedundant: {{ .Values.sharedServiceBus.zoneRedundant }}
+  {{- end }}
+  disableLocalAuth: {{ .Values.sharedServiceBus.disableLocalAuth }}
+  minimumTlsVersion: {{ .Values.sharedServiceBus.minimumTlsVersion }}
+  publicNetworkAccess: {{ .Values.sharedServiceBus.publicNetworkAccess }}
+  tags:
+    {{- include "azure-shared-cluster-services.tags" (dict "Values" .Values "resourceTags" .Values.sharedServiceBus.tags) | nindent 4 }}
+  operatorSpec:
+    configMaps:
+      serviceBusEndpoint:
+        name: {{ .Values.sharedServiceBus.name }}-config
+        key: SERVICEBUS_ENDPOINT
+{{- end }}

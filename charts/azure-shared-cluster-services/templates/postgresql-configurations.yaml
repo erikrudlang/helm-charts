@@ -1,0 +1,17 @@
+{{- if .Values.postgresqlFlexibleServer.enabled }}
+{{- range .Values.postgresqlFlexibleServer.configurations }}
+---
+apiVersion: dbforpostgresql.azure.com/v1api20221201
+kind: FlexibleServersConfiguration
+metadata:
+  name: {{ $.Values.postgresqlFlexibleServer.name }}-{{ .name }}
+  namespace: {{ $.Values.namespace.name }}
+  labels:
+    {{- include "azure-shared-cluster-services.labels" $ | nindent 4 }}
+spec:
+  azureName: {{ .name }}
+  owner:
+    name: {{ $.Values.postgresqlFlexibleServer.name }}
+  value: {{ .value | quote }}
+{{- end }}
+{{- end }}

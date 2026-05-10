@@ -1,0 +1,17 @@
+apiVersion: v2
+name: azure-shared-cluster-services
+description: Shared Azure Service Bus and PostgreSQL Flexible Server for multi-tenant Kubernetes clusters
+type: application
+version: 0.1.0
+appVersion: "1.0"
+keywords:
+  - azure
+  - servicebus
+  - postgresql
+  - multi-tenant
+  - aso
+maintainers:
+  - name: Erik Rudlang
+home: https://github.com/erikrudlang/helm-charts
+sources:
+  - https://github.com/erikrudlang/helm-charts

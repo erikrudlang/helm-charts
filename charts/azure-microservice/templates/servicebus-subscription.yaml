@@ -1,0 +1,52 @@
+{{- if .Values.azureServiceBus.enabled }}
+{{- if .Values.azureServiceBus.create }}
+{{- range .Values.azureServiceBus.topics }}
+{{- range .subscriptions }}
+---
+apiVersion: servicebus.azure.com/v1api20211101
+kind: NamespacesTopicsSubscription
+metadata:
+  name: {{ $.Values.azureServiceBus.namespaceName | default (include "azure-microservice.fullname" $) }}-{{ .name }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "azure-microservice.labels" $ | nindent 4 }}
+spec:
+  azureName: {{ .name }}
+  owner:
+    name: {{ $.Values.azureServiceBus.namespaceName | default (include "azure-microservice.fullname" $) }}-{{ $.name }}
+  {{- if .lockDuration }}
+  lockDuration: {{ .lockDuration }}
+  {{- end }}
+  {{- if .requiresSession }}
+  requiresSession: {{ .requiresSession }}
+  {{- end }}
+  {{- if .defaultMessageTimeToLive }}
+  defaultMessageTimeToLive: {{ .defaultMessageTimeToLive }}
+  {{- end }}
+  {{- if .deadLetteringOnMessageExpiration }}
+  deadLetteringOnMessageExpiration: {{ .deadLetteringOnMessageExpiration }}
+  {{- end }}
+  {{- if .deadLetteringOnFilterEvaluationExceptions }}
+  deadLetteringOnFilterEvaluationExceptions: {{ .deadLetteringOnFilterEvaluationExceptions }}
+  {{- end }}
+  {{- if .maxDeliveryCount }}
+  maxDeliveryCount: {{ .maxDeliveryCount }}
+  {{- else }}
+  maxDeliveryCount: 10
+  {{- end }}
+  {{- if .enableBatchedOperations }}
+  enableBatchedOperations: {{ .enableBatchedOperations }}
+  {{- end }}
+  {{- if .autoDeleteOnIdle }}
+  autoDeleteOnIdle: {{ .autoDeleteOnIdle }}
+  {{- end }}
+  {{- if .forwardTo }}
+  forwardTo: {{ .forwardTo }}
+  {{- end }}
+  {{- if .forwardDeadLetteredMessagesTo }}
+  forwardDeadLetteredMessagesTo: {{ .forwardDeadLetteredMessagesTo }}
+  {{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}

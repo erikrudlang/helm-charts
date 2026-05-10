@@ -1,0 +1,54 @@
+{{- if .Values.appConfig.create }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "backstage-pg.fullname" . }}-app-config
+  labels:
+    {{- include "backstage-pg.labels" . | nindent 4 }}
+data:
+  app-config.yaml: |
+    app:
+      title: {{ .Values.backstage.app.title }}
+      baseUrl: {{ .Values.backstage.baseUrl }}
+    
+    organization:
+      name: {{ .Values.backstage.organization.name }}
+    
+    backend:
+      baseUrl: {{ .Values.backstage.backendUrl }}
+      listen:
+        port: {{ .Values.backstage.backend.listen.port }}
+        host: {{ .Values.backstage.backend.listen.host }}
+      
+      cors:
+        origin: {{ .Values.backstage.backend.cors.origin }}
+        credentials: {{ .Values.backstage.backend.cors.credentials }}
+      
+      database:
+        client: {{ .Values.backstage.backend.database.client }}
+        connection:
+          host: {{ include "backstage-pg.postgresql.host" . }}
+          port: {{ .Values.backstage.backend.database.connection.port }}
+          user: {{ .Values.postgresql.auth.username }}
+          database: {{ .Values.postgresql.auth.database }}
+          ssl:
+            rejectUnauthorized: {{ .Values.backstage.backend.database.connection.ssl.rejectUnauthorized }}
+    
+    catalog:
+      {{- if .Values.backstage.catalog.locations }}
+      locations:
+        {{- toYaml .Values.backstage.catalog.locations | nindent 8 }}
+      {{- end }}
+      rules:
+        {{- toYaml .Values.backstage.catalog.rules | nindent 8 }}
+    
+    auth:
+      environment: {{ .Values.backstage.auth.environment }}
+    
+    techdocs:
+      builder: {{ .Values.backstage.techdocs.builder }}
+      generator:
+        runIn: {{ .Values.backstage.techdocs.generator.runIn }}
+      publisher:
+        type: {{ .Values.backstage.techdocs.publisher.type }}
+{{- end }}

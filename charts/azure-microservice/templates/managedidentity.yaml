@@ -14,4 +14,9 @@ spec:
   tags:
     {{- toYaml .Values.workloadIdentity.tags | nindent 4 }}
   {{- end }}
+  operatorSpec:
+    configMaps:
+      clientId:
+        name: {{ include "azure-microservice.fullname" . }}-identity
+        key: AZURE_CLIENT_ID
 {{- end }}

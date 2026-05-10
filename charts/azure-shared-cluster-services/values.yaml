@@ -1,0 +1,108 @@
+# Default values for azure-shared-cluster-services
+# This is a YAML-formatted file for shared Azure services
+
+# Global settings
+global:
+  # Azure subscription and resource group
+  subscriptionId: ""
+  resourceGroup: ""
+  location: "northeurope"
+  # Common tags for all resources
+  tags:
+    environment: "production"
+    managed-by: "helm"
+    chart: "azure-shared-cluster-services"
+
+# Azure Service Bus - Shared messaging infrastructure
+sharedServiceBus:
+  enabled: false
+  # Name of the Service Bus namespace
+  name: ""
+  # SKU: Basic, Standard, or Premium
+  sku: "Standard"
+  # Capacity for Premium SKU (1, 2, 4, 8, or 16)
+  capacity: 1
+  # Zone redundancy (Premium SKU only)
+  zoneRedundant: false
+  # Disable local authentication
+  disableLocalAuth: true
+  # Minimum TLS version
+  minimumTlsVersion: "1.2"
+  # Public network access
+  publicNetworkAccess: "Enabled"
+  tags: {}
+
+# Azure PostgreSQL Flexible Server - Shared database server
+postgresqlFlexibleServer:
+  enabled: false
+  # Name of the PostgreSQL server (must be globally unique)
+  name: ""
+  # PostgreSQL version (11, 12, 13, 14, 15, 16)
+  version: "16"
+  # SKU name (e.g., Standard_D2s_v3, Standard_D4s_v3, Burstable_B1ms)
+  sku:
+    name: "Standard_D2s_v3"
+    tier: "GeneralPurpose"
+  # Storage configuration
+  storage:
+    # Storage size in GB (32-16384)
+    sizeGB: 128
+    # Auto grow (Enabled or Disabled)
+    autoGrow: "Enabled"
+  # Backup configuration
+  backup:
+    # Retention days (7-35)
+    retentionDays: 7
+    # Geo-redundant backup (Enabled or Disabled)
+    geoRedundantBackup: "Disabled"
+  # High availability
+  highAvailability:
+    # Mode: Disabled, ZoneRedundant, SameZone
+    mode: "Disabled"
+  # Administrator credentials
+  administrator:
+    # Admin username
+    username: "psqladmin"
+    # Admin password (if empty, will be auto-generated)
+    password: ""
+    # Existing secret name containing password
+    passwordSecretName: ""
+    passwordSecretKey: "password"
+  # Network configuration
+  network:
+    # Public network access (Enabled or Disabled)
+    publicNetworkAccess: "Enabled"
+    # Delegated subnet ID for VNet integration
+    delegatedSubnetResourceId: ""
+    # Private DNS zone resource ID
+    privateDnsZoneResourceId: ""
+  # Firewall rules (only when publicNetworkAccess is Enabled)
+  firewallRules: []
+    # - name: "AllowAzureServices"
+    #   startIpAddress: "0.0.0.0"
+    #   endIpAddress: "0.0.0.0"
+    # - name: "AllowMyIP"
+    #   startIpAddress: "1.2.3.4"
+    #   endIpAddress: "1.2.3.4"
+  # Databases to create
+  databases: []
+    # - name: "app1_db"
+    #   charset: "UTF8"
+    #   collation: "en_US.utf8"
+    # - name: "app2_db"
+    #   charset: "UTF8"
+    #   collation: "en_US.utf8"
+  # Server parameters/configuration
+  configurations: []
+    # - name: "max_connections"
+    #   value: "200"
+    # - name: "shared_buffers"
+    #   value: "256MB"
+  tags: {}
+
+# Namespace for shared resources
+namespace:
+  create: true
+  name: "shared-services"
+  labels: {}
+  annotations: {}

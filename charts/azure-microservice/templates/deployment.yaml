@@ -52,15 +52,43 @@ spec:
           containerPort: {{ .Values.metrics.port }}
           protocol: TCP
         {{- end }}
-        {{- with .Values.env }}
         env:
-          {{- toYaml . | nindent 10 }}
+        {{- if .Values.workloadIdentity.enabled }}
+        - name: AZURE_CLIENT_ID
+          valueFrom:
+            configMapKeyRef:
+              name: {{ include "azure-microservice.fullname" . }}-identity
+              key: AZURE_CLIENT_ID
+        {{- end }}
+        {{- if and .Values.azureKeyVault.enabled .Values.azureKeyVault.create }}
+        - name: AZURE_KEYVAULT_URI
+          valueFrom:
+            configMapKeyRef:
+              name: {{ include "azure-microservice.fullname" . }}-keyvault
+              key: AZURE_KEYVAULT_URI
+        {{- end }}
+        {{- if and .Values.azureAppConfiguration.enabled .Values.azureAppConfiguration.create }}
+        - name: AZURE_APPCONFIG_ENDPOINT
+          valueFrom:
+            configMapKeyRef:
+              name: {{ include "azure-microservice.fullname" . }}-appconfig
+              key: AZURE_APPCONFIG_ENDPOINT
+        {{- end }}
+        {{- if and .Values.azureServiceBus.enabled .Values.azureServiceBus.create }}
+        - name: AZURE_SERVICEBUS_ENDPOINT
+          valueFrom:
+            configMapKeyRef:
+              name: {{ include "azure-microservice.fullname" . }}-servicebus
+              key: AZURE_SERVICEBUS_ENDPOINT
         {{- end }}
         {{- if .Values.azureApplicationInsights.enabled }}
         - name: APPLICATIONINSIGHTS_CONNECTION_STRING
           value: {{ .Values.azureApplicationInsights.connectionString | quote }}
         - name: APPINSIGHTS_INSTRUMENTATIONKEY
           value: {{ .Values.azureApplicationInsights.instrumentationKey | quote }}
+        {{- end }}
+        {{- with .Values.env }}
+          {{- toYaml . | nindent 10 }}
         {{- end }}
         {{- with .Values.envFrom }}
         envFrom:
@@ -81,6 +109,9 @@ spec:
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
         volumeMounts:
+        - mountPath: /var/run/secrets/azure/tokens/azure-identity-token
+          name: azure-identity-token
+          readOnly: true
         {{- if .Values.azureKeyVault.enabled }}
         - name: secrets-store
           mountPath: "/mnt/secrets-store"
@@ -90,6 +121,14 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
       volumes:
+      - name: azure-identity-token
+        projected:
+          defaultMode: 420
+          sources:
+            - serviceAccountToken:
+                audience: api://AzureADTokenExchange
+                expirationSeconds: 3600
+                path: azure-identity
       {{- if .Values.azureKeyVault.enabled }}
       - name: secrets-store
         csi:

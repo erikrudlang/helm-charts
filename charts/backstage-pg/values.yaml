@@ -1,0 +1,228 @@
+# Default values for backstage-pg
+# This is a YAML-formatted file.
+
+# Backstage image configuration
+image:
+  registry: ghcr.io
+  repository: acraksdemo.azurecr.io/backstage
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+
+nameOverride: ""
+fullnameOverride: ""
+
+# Number of Backstage replicas
+replicaCount: 1
+
+# Service account configuration
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+# Pod annotations
+podAnnotations: {}
+
+podLabels: {}
+
+# Pod security context
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  fsGroup: 1000
+
+# Container security context
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  runAsUser: 1000
+  capabilities:
+    drop:
+    - ALL
+
+# Backstage configuration
+backstage:
+  # Base URL for Backstage
+  baseUrl: "http://localhost:7007"
+  # Backend base URL
+  backendUrl: "http://localhost:7007"
+  
+  # App configuration
+  app:
+    title: "Backstage"
+    
+  # Organization configuration
+  organization:
+    name: "My Company"
+    
+  # Backend configuration
+  backend:
+    # Listen on all interfaces
+    listen:
+      port: 7007
+      host: "0.0.0.0"
+    
+    # CORS configuration
+    cors:
+      origin: "*"
+      credentials: true
+    
+    # Database connection
+    database:
+      client: "pg"
+      # Connection details will be populated from PostgreSQL cluster
+      connection:
+        host: ""  # Will be set from cloudnativepg cluster
+        port: 5432
+        user: "backstage"
+        password: ""  # Will be set from secret
+        database: "backstage"
+        ssl:
+          rejectUnauthorized: false
+    
+  # Catalog configuration
+  catalog:
+    locations: []
+      # - type: url
+      #   target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all.yaml
+    
+    rules:
+      - allow: [Component, System, API, Resource, Location]
+  
+  # Auth configuration (configure as needed)
+  auth:
+    environment: "development"
+    # providers: {}
+  
+  # Techdocs configuration
+  techdocs:
+    builder: "local"
+    generator:
+      runIn: "local"
+    publisher:
+      type: "local"
+
+# Additional environment variables
+extraEnvVars: []
+  # - name: NODE_ENV
+  #   value: "production"
+  # - name: LOG_LEVEL
+  #   value: "info"
+
+# Environment variables from secrets/configmaps
+extraEnvFrom: []
+  # - secretRef:
+  #     name: backstage-secrets
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 7007
+  annotations: {}
+
+# Ingress configuration
+ingress:
+  enabled: false
+  className: "nginx"
+  annotations: {}
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    # nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  hosts:
+    - host: backstage.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+  #  - secretName: backstage-tls
+  #    hosts:
+  #      - backstage.example.com
+
+# Resource requests and limits
+resources:
+  requests:
+    memory: "512Mi"
+    cpu: "500m"
+  limits:
+    memory: "1Gi"
+    cpu: "1000m"
+
+# Liveness probe
+livenessProbe:
+  httpGet:
+    path: /healthcheck
+    port: http
+  initialDelaySeconds: 60
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+# Readiness probe
+readinessProbe:
+  httpGet:
+    path: /healthcheck
+    port: http
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+# Node selector
+nodeSelector: {}
+
+# Tolerations
+tolerations: []
+
+# Affinity
+affinity: {}
+
+# PostgreSQL configuration using CloudNativePG
+postgresql:
+  enabled: true
+  # CloudNativePG cluster configuration (passed to subchart)
+  cluster:
+    name: "backstage-pg"
+    instances: 1
+    storage:
+      size: "10Gi"
+      storageClass: ""
+    
+    # Bootstrap configuration
+    bootstrap:
+      initdb:
+        database: "backstage"
+        owner: "backstage"
+        secret:
+          name: ""  # Will be created by the chart
+    
+    # Monitoring
+    monitoring:
+      enabled: false
+    
+  # Database user credentials
+  auth:
+    username: "backstage"
+    password: ""  # If empty, will be auto-generated
+    database: "backstage"
+
+# ConfigMap for app-config.yaml
+appConfig:
+  # Create a ConfigMap with app-config.yaml
+  create: true
+  # Or provide the name of an existing ConfigMap
+  existingConfigMap: ""
+
+# Volumes
+volumes: []
+  # - name: app-config
+  #   configMap:
+  #     name: backstage-app-config
+
+# Volume mounts
+volumeMounts: []
+  # - name: app-config
+  #   mountPath: /app/app-config.yaml
+  #   subPath: app-config.yaml

@@ -1,0 +1,45 @@
+{{- if .Values.azureServiceBus.enabled }}
+{{- if .Values.azureServiceBus.create }}
+{{- range .Values.azureServiceBus.topics }}
+---
+apiVersion: servicebus.azure.com/v1api20211101
+kind: NamespacesTopic
+metadata:
+  name: {{ $.Values.azureServiceBus.namespaceName | default (include "azure-microservice.fullname" $) }}-{{ .name }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "azure-microservice.labels" $ | nindent 4 }}
+spec:
+  azureName: {{ .name }}
+  owner:
+    name: {{ $.Values.azureServiceBus.namespaceName | default (include "azure-microservice.fullname" $) }}
+  {{- if .maxSizeInMegabytes }}
+  maxSizeInMegabytes: {{ .maxSizeInMegabytes }}
+  {{- end }}
+  {{- if .requiresDuplicateDetection }}
+  requiresDuplicateDetection: {{ .requiresDuplicateDetection }}
+  {{- end }}
+  {{- if .defaultMessageTimeToLive }}
+  defaultMessageTimeToLive: {{ .defaultMessageTimeToLive }}
+  {{- end }}
+  {{- if .duplicateDetectionHistoryTimeWindow }}
+  duplicateDetectionHistoryTimeWindow: {{ .duplicateDetectionHistoryTimeWindow }}
+  {{- end }}
+  {{- if .enableBatchedOperations }}
+  enableBatchedOperations: {{ .enableBatchedOperations }}
+  {{- end }}
+  {{- if .autoDeleteOnIdle }}
+  autoDeleteOnIdle: {{ .autoDeleteOnIdle }}
+  {{- end }}
+  {{- if .enablePartitioning }}
+  enablePartitioning: {{ .enablePartitioning }}
+  {{- end }}
+  {{- if .supportOrdering }}
+  supportOrdering: {{ .supportOrdering }}
+  {{- end }}
+  {{- if .enableExpress }}
+  enableExpress: {{ .enableExpress }}
+  {{- end }}
+{{- end }}
+{{- end }}
+{{- end }}

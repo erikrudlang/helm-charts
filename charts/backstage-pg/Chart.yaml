@@ -1,0 +1,22 @@
+apiVersion: v2
+name: backstage-pg
+description: Backstage developer portal with CloudNativePG PostgreSQL database
+type: application
+version: 0.1.0
+appVersion: "1.26.0"
+keywords:
+  - backstage
+  - developer-portal
+  - cloudnativepg
+  - postgresql
+maintainers:
+  - name: Erik Rudlang
+home: https://github.com/erikrudlang/helm-charts
+sources:
+  - https://github.com/erikrudlang/helm-charts
+  - https://github.com/backstage/backstage
+  - https://cloudnative-pg.io/
+dependencies:
+  - name: cloudnativepg
+    version: "0.1.0"
+    condition: postgresql.enabled

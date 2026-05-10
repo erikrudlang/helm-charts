@@ -1,0 +1,20 @@
+{{- if .Values.postgresqlFlexibleServer.enabled }}
+{{- if and (eq .Values.postgresqlFlexibleServer.network.publicNetworkAccess "Enabled") .Values.postgresqlFlexibleServer.firewallRules }}
+{{- range .Values.postgresqlFlexibleServer.firewallRules }}
+---
+apiVersion: dbforpostgresql.azure.com/v1api20221201
+kind: FlexibleServersFirewallRule
+metadata:
+  name: {{ $.Values.postgresqlFlexibleServer.name }}-{{ .name }}
+  namespace: {{ $.Values.namespace.name }}
+  labels:
+    {{- include "azure-shared-cluster-services.labels" $ | nindent 4 }}
+spec:
+  azureName: {{ .name }}
+  owner:
+    name: {{ $.Values.postgresqlFlexibleServer.name }}
+  startIpAddress: {{ .startIpAddress }}
+  endIpAddress: {{ .endIpAddress }}
+{{- end }}
+{{- end }}
+{{- end }}

@@ -1,0 +1,56 @@
+{{- if .Values.azureServiceBus.enabled }}
+{{- if .Values.azureServiceBus.create }}
+{{- range .Values.azureServiceBus.queues }}
+---
+apiVersion: servicebus.azure.com/v1api20211101
+kind: NamespacesQueue
+metadata:
+  name: {{ $.Values.azureServiceBus.namespaceName | default (include "azure-microservice.fullname" $) }}-{{ .name }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "azure-microservice.labels" $ | nindent 4 }}
+spec:
+  azureName: {{ .name }}
+  owner:
+    name: {{ $.Values.azureServiceBus.namespaceName | default (include "azure-microservice.fullname" $) }}
+  {{- if .lockDuration }}
+  lockDuration: {{ .lockDuration }}
+  {{- end }}
+  {{- if .maxSizeInMegabytes }}
+  maxSizeInMegabytes: {{ .maxSizeInMegabytes }}
+  {{- end }}
+  {{- if .requiresDuplicateDetection }}
+  requiresDuplicateDetection: {{ .requiresDuplicateDetection }}
+  {{- end }}
+  {{- if .requiresSession }}
+  requiresSession: {{ .requiresSession }}
+  {{- end }}
+  {{- if .defaultMessageTimeToLive }}
+  defaultMessageTimeToLive: {{ .defaultMessageTimeToLive }}
+  {{- end }}
+  {{- if .deadLetteringOnMessageExpiration }}
+  deadLetteringOnMessageExpiration: {{ .deadLetteringOnMessageExpiration }}
+  {{- end }}
+  {{- if .duplicateDetectionHistoryTimeWindow }}
+  duplicateDetectionHistoryTimeWindow: {{ .duplicateDetectionHistoryTimeWindow }}
+  {{- end }}
+  {{- if .maxDeliveryCount }}
+  maxDeliveryCount: {{ .maxDeliveryCount }}
+  {{- else }}
+  maxDeliveryCount: 10
+  {{- end }}
+  {{- if .enableBatchedOperations }}
+  enableBatchedOperations: {{ .enableBatchedOperations }}
+  {{- end }}
+  {{- if .autoDeleteOnIdle }}
+  autoDeleteOnIdle: {{ .autoDeleteOnIdle }}
+  {{- end }}
+  {{- if .enablePartitioning }}
+  enablePartitioning: {{ .enablePartitioning }}
+  {{- end }}
+  {{- if .enableExpress }}
+  enableExpress: {{ .enableExpress }}
+  {{- end }}
+{{- end }}
+{{- end }}
+{{- end }}

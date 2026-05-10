@@ -1,0 +1,50 @@
+{{- if .Values.azureKeyVault.enabled }}
+{{- if .Values.azureKeyVault.create }}
+apiVersion: keyvault.azure.com/v1api20210401preview
+kind: Vault
+metadata:
+  name: {{ .Values.azureKeyVault.vaultName | default (include "azure-microservice.fullname" .) }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "azure-microservice.labels" . | nindent 4 }}
+spec:
+  location: {{ .Values.azureKeyVault.location | default .Values.workloadIdentity.location }}
+  owner:
+    name: {{ .Values.azureKeyVault.resourceGroup | default .Values.workloadIdentity.resourceGroup }}
+  properties:
+    sku:
+      family: A
+      name: {{ .Values.azureKeyVault.sku | default "standard" }}
+    tenantId: {{ .Values.azureKeyVault.tenantId }}
+    enableRbacAuthorization: {{ .Values.azureKeyVault.enableRbacAuthorization | default true }}
+    {{- if not .Values.azureKeyVault.enableRbacAuthorization }}
+    accessPolicies:
+      {{- with .Values.azureKeyVault.accessPolicies }}
+      {{- toYaml . | nindent 6 }}
+      {{- end }}
+    {{- end }}
+    enabledForDeployment: {{ .Values.azureKeyVault.enabledForDeployment | default false }}
+    enabledForDiskEncryption: {{ .Values.azureKeyVault.enabledForDiskEncryption | default false }}
+    enabledForTemplateDeployment: {{ .Values.azureKeyVault.enabledForTemplateDeployment | default false }}
+    enableSoftDelete: {{ .Values.azureKeyVault.enableSoftDelete | default true }}
+    softDeleteRetentionInDays: {{ .Values.azureKeyVault.softDeleteRetentionInDays | default 90 }}
+    {{- if .Values.azureKeyVault.enablePurgeProtection }}
+    enablePurgeProtection: true
+    {{- end }}
+    {{- if .Values.azureKeyVault.networkAcls }}
+    networkAcls:
+      {{- toYaml .Values.azureKeyVault.networkAcls | nindent 6 }}
+    {{- end }}
+  {{- if .Values.azureKeyVault.tags }}
+  tags:
+    {{- toYaml .Values.azureKeyVault.tags | nindent 4 }}
+  {{- end }}
+  {{- if .Values.workloadIdentity.enabled }}
+  operatorSpec:
+    configMaps:
+      vaultUri:
+        name: {{ include "azure-microservice.fullname" . }}-keyvault
+        key: AZURE_KEYVAULT_URI
+  {{- end }}
+{{- end }}
+{{- end }}

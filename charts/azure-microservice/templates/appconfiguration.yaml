@@ -1,0 +1,40 @@
+{{- if .Values.azureAppConfiguration.enabled }}
+{{- if .Values.azureAppConfiguration.create }}
+apiVersion: appconfiguration.azure.com/v1api20220501
+kind: ConfigurationStore
+metadata:
+  name: {{ .Values.azureAppConfiguration.storeName | default (include "azure-microservice.fullname" .) }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "azure-microservice.labels" . | nindent 4 }}
+spec:
+  location: {{ .Values.azureAppConfiguration.location | default .Values.workloadIdentity.location }}
+  owner:
+    name: {{ .Values.azureAppConfiguration.resourceGroup | default .Values.workloadIdentity.resourceGroup }}
+  sku:
+    name: {{ .Values.azureAppConfiguration.sku | default "standard" }}
+  {{- if .Values.azureAppConfiguration.publicNetworkAccess }}
+  publicNetworkAccess: {{ .Values.azureAppConfiguration.publicNetworkAccess }}
+  {{- end }}
+  {{- if .Values.azureAppConfiguration.disableLocalAuth }}
+  disableLocalAuth: {{ .Values.azureAppConfiguration.disableLocalAuth }}
+  {{- end }}
+  {{- if .Values.azureAppConfiguration.enablePurgeProtection }}
+  enablePurgeProtection: {{ .Values.azureAppConfiguration.enablePurgeProtection }}
+  {{- end }}
+  {{- if .Values.azureAppConfiguration.softDeleteRetentionInDays }}
+  softDeleteRetentionInDays: {{ .Values.azureAppConfiguration.softDeleteRetentionInDays }}
+  {{- end }}
+  {{- if .Values.azureAppConfiguration.tags }}
+  tags:
+    {{- toYaml .Values.azureAppConfiguration.tags | nindent 4 }}
+  {{- end }}
+  {{- if .Values.workloadIdentity.enabled }}
+  operatorSpec:
+    configMaps:
+      endpoint:
+        name: {{ include "azure-microservice.fullname" . }}-appconfig
+        key: AZURE_APPCONFIG_ENDPOINT
+  {{- end }}
+{{- end }}
+{{- end }}

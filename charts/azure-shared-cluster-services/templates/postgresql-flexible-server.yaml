@@ -1,0 +1,51 @@
+{{- if .Values.postgresqlFlexibleServer.enabled }}
+apiVersion: dbforpostgresql.azure.com/v1api20221201
+kind: FlexibleServer
+metadata:
+  name: {{ .Values.postgresqlFlexibleServer.name }}
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    {{- include "azure-shared-cluster-services.labels" . | nindent 4 }}
+spec:
+  location: {{ .Values.global.location }}
+  owner:
+    name: {{ .Values.global.resourceGroup }}
+  version: {{ .Values.postgresqlFlexibleServer.version | quote }}
+  sku:
+    name: {{ .Values.postgresqlFlexibleServer.sku.name }}
+    tier: {{ .Values.postgresqlFlexibleServer.sku.tier }}
+  storage:
+    storageSizeGB: {{ .Values.postgresqlFlexibleServer.storage.sizeGB }}
+    {{- if .Values.postgresqlFlexibleServer.storage.autoGrow }}
+    autoGrow: {{ .Values.postgresqlFlexibleServer.storage.autoGrow }}
+    {{- end }}
+  backup:
+    backupRetentionDays: {{ .Values.postgresqlFlexibleServer.backup.retentionDays }}
+    geoRedundantBackup: {{ .Values.postgresqlFlexibleServer.backup.geoRedundantBackup }}
+  {{- if ne .Values.postgresqlFlexibleServer.highAvailability.mode "Disabled" }}
+  highAvailability:
+    mode: {{ .Values.postgresqlFlexibleServer.highAvailability.mode }}
+  {{- end }}
+  administratorLogin: {{ .Values.postgresqlFlexibleServer.administrator.username }}
+  {{- if .Values.postgresqlFlexibleServer.administrator.passwordSecretName }}
+  administratorLoginPassword:
+    name: {{ .Values.postgresqlFlexibleServer.administrator.passwordSecretName }}
+    key: {{ .Values.postgresqlFlexibleServer.administrator.passwordSecretKey }}
+  {{- end }}
+  {{- if .Values.postgresqlFlexibleServer.network.delegatedSubnetResourceId }}
+  network:
+    delegatedSubnetResourceReference:
+      armId: {{ .Values.postgresqlFlexibleServer.network.delegatedSubnetResourceId }}
+    {{- if .Values.postgresqlFlexibleServer.network.privateDnsZoneResourceId }}
+    privateDnsZoneArmResourceReference:
+      armId: {{ .Values.postgresqlFlexibleServer.network.privateDnsZoneResourceId }}
+    {{- end }}
+  {{- end }}
+  tags:
+    {{- include "azure-shared-cluster-services.tags" (dict "Values" .Values "resourceTags" .Values.postgresqlFlexibleServer.tags) | nindent 4 }}
+  operatorSpec:
+    configMaps:
+      fullyQualifiedDomainName:
+        name: {{ .Values.postgresqlFlexibleServer.name }}-config
+        key: POSTGRES_HOST
+{{- end }}

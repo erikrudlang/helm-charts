@@ -1,0 +1,58 @@
+Azure Shared Cluster Services has been installed!
+
+{{- if or .Values.sharedServiceBus.enabled .Values.postgresqlFlexibleServer.enabled }}
+
+The following shared resources are being provisioned:
+
+{{- if .Values.sharedServiceBus.enabled }}
+✓ Azure Service Bus: {{ .Values.sharedServiceBus.name }}
+  - Endpoint will be available in ConfigMap: {{ .Values.sharedServiceBus.name }}-config
+  - Key: SERVICEBUS_ENDPOINT
+{{- end }}
+
+{{- if .Values.postgresqlFlexibleServer.enabled }}
+✓ Azure PostgreSQL Flexible Server: {{ .Values.postgresqlFlexibleServer.name }}
+  - Host will be available in ConfigMap: {{ .Values.postgresqlFlexibleServer.name }}-config
+  - Key: POSTGRES_HOST
+  - Version: {{ .Values.postgresqlFlexibleServer.version }}
+  - SKU: {{ .Values.postgresqlFlexibleServer.sku.name }}
+{{- if .Values.postgresqlFlexibleServer.databases }}
+  Databases:
+  {{- range .Values.postgresqlFlexibleServer.databases }}
+  - {{ .name }}
+  {{- end }}
+{{- end }}
+{{- end }}
+
+To check the status of Azure resources:
+
+  kubectl get all -n {{ .Values.namespace.name }}
+  kubectl get configmaps -n {{ .Values.namespace.name }}
+
+To view Azure Service Operator resource details:
+
+  kubectl describe <resource-type> <resource-name> -n {{ .Values.namespace.name }}
+
+Resources are being created in:
+  - Azure Subscription: {{ .Values.global.subscriptionId }}
+  - Resource Group: {{ .Values.global.resourceGroup }}
+  - Location: {{ .Values.global.location }}
+
+{{- else }}
+
+No shared resources are enabled. Update your values.yaml to enable desired services.
+
+Example:
+  sharedServiceBus:
+    enabled: true
+    name: "shared-servicebus"
+    sku: "Standard"
+  
+  postgresqlFlexibleServer:
+    enabled: true
+    name: "shared-postgres"
+    version: "16"
+
+{{- end }}
+
+For more information, visit: https://github.com/erikrudlang/helm-charts

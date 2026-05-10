@@ -1,0 +1,46 @@
+{{- if .Values.azureServiceBus.enabled }}
+{{- if .Values.azureServiceBus.create }}
+apiVersion: servicebus.azure.com/v1api20211101
+kind: Namespace
+metadata:
+  name: {{ .Values.azureServiceBus.namespaceName | default (include "azure-microservice.fullname" .) }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "azure-microservice.labels" . | nindent 4 }}
+spec:
+  location: {{ .Values.azureServiceBus.location | default .Values.workloadIdentity.location }}
+  owner:
+    name: {{ .Values.azureServiceBus.resourceGroup | default .Values.workloadIdentity.resourceGroup }}
+  sku:
+    name: {{ .Values.azureServiceBus.sku | default "Standard" }}
+  {{- if .Values.azureServiceBus.capacity }}
+  {{- if eq (.Values.azureServiceBus.sku | default "Standard") "Premium" }}
+  sku:
+    capacity: {{ .Values.azureServiceBus.capacity }}
+  {{- end }}
+  {{- end }}
+  {{- if .Values.azureServiceBus.zoneRedundant }}
+  zoneRedundant: {{ .Values.azureServiceBus.zoneRedundant }}
+  {{- end }}
+  {{- if .Values.azureServiceBus.disableLocalAuth }}
+  disableLocalAuth: {{ .Values.azureServiceBus.disableLocalAuth }}
+  {{- end }}
+  {{- if .Values.azureServiceBus.minimumTlsVersion }}
+  minimumTlsVersion: {{ .Values.azureServiceBus.minimumTlsVersion }}
+  {{- end }}
+  {{- if .Values.azureServiceBus.publicNetworkAccess }}
+  publicNetworkAccess: {{ .Values.azureServiceBus.publicNetworkAccess }}
+  {{- end }}
+  {{- if .Values.azureServiceBus.tags }}
+  tags:
+    {{- toYaml .Values.azureServiceBus.tags | nindent 4 }}
+  {{- end }}
+  {{- if .Values.workloadIdentity.enabled }}
+  operatorSpec:
+    configMaps:
+      serviceBusEndpoint:
+        name: {{ include "azure-microservice.fullname" . }}-servicebus
+        key: AZURE_SERVICEBUS_ENDPOINT
+  {{- end }}
+{{- end }}
+{{- end }}

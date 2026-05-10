@@ -167,9 +167,51 @@ configMap:
 # Azure Key Vault integration using CSI driver
 azureKeyVault:
   enabled: false
+  # Create a new Key Vault resource (requires Azure Service Operator)
+  create: false
+  # Name of the Key Vault (defaults to release name if not set)
+  vaultName: ""
+  # Resource group for the Key Vault (defaults to workloadIdentity.resourceGroup if not set)
+  resourceGroup: ""
+  # Azure location (defaults to workloadIdentity.location if not set)
+  location: ""
+  # Azure tenant ID
   tenantId: ""
+  # Name of existing Key Vault to use (when create is false)
   keyVaultName: ""
-  # Secrets to mount from Key Vault
+  # Key Vault SKU (standard or premium)
+  sku: "standard"
+  # Use RBAC authorization instead of access policies (recommended)
+  enableRbacAuthorization: true
+  # Access policies (only used when enableRbacAuthorization is false)
+  accessPolicies: []
+    # - tenantId: "00000000-0000-0000-0000-000000000000"
+    #   objectId: "00000000-0000-0000-0000-000000000000"
+    #   permissions:
+    #     secrets:
+    #       - get
+    #       - list
+  # Enable for deployment scenarios
+  enabledForDeployment: false
+  enabledForDiskEncryption: false
+  enabledForTemplateDeployment: false
+  # Soft delete configuration
+  enableSoftDelete: true
+  softDeleteRetentionInDays: 90
+  # Purge protection (cannot be disabled once enabled)
+  enablePurgeProtection: false
+  # Network ACLs
+  networkAcls: {}
+    # bypass: "AzureServices"
+    # defaultAction: "Deny"
+    # ipRules:
+    #   - value: "1.2.3.4/32"
+    # virtualNetworkRules:
+    #   - id: "/subscriptions/{sub}/resourceGroups/{rg}/providers/Microsoft.Network/virtualNetworks/{vnet}/subnets/{subnet}"
+  # Tags for the Key Vault
+  tags:
+    managed-by: "helm"
+  # Secrets to mount from Key Vault via CSI driver
   secrets: []
     # - secretName: "database-password"
     #   objectName: "db-password"
@@ -181,19 +223,88 @@ azureKeyVault:
 # Azure Service Bus integration
 azureServiceBus:
   enabled: false
+  # Create a new Service Bus namespace (requires Azure Service Operator)
+  create: false
+  # Name of the Service Bus namespace (defaults to release name if not set)
   namespaceName: ""
+  # Resource group for the Service Bus (defaults to workloadIdentity.resourceGroup if not set)
+  resourceGroup: ""
+  # Azure location (defaults to workloadIdentity.location if not set)
+  location: ""
+  # Service Bus SKU (Basic, Standard, or Premium)
+  sku: "Standard"
+  # Capacity for Premium SKU (1, 2, 4, 8, or 16 messaging units)
+  capacity: 1
+  # Zone redundancy (Premium SKU only)
+  zoneRedundant: false
+  # Disable local authentication (requires Azure AD authentication only)
+  disableLocalAuth: true
+  # Minimum TLS version (1.0, 1.1, or 1.2)
+  minimumTlsVersion: "1.2"
+  # Public network access (Enabled, Disabled, or SecuredByPerimeter)
+  publicNetworkAccess: "Enabled"
+  # Tags for the Service Bus namespace
+  tags:
+    managed-by: "helm"
   # Queues to create
   queues: []
     # - name: "orders-queue"
     #   maxDeliveryCount: 10
-    # - name: "notifications-queue"
-    #   maxDeliveryCount: 5
+    #   lockDuration: "PT1M"  # ISO 8601 duration (PT1M = 1 minute)
+    #   maxSizeInMegabytes: 1024
+    #   requiresDuplicateDetection: false
+    #   requiresSession: false
+    #   defaultMessageTimeToLive: "P14D"  # ISO 8601 duration (P14D = 14 days)
+    #   deadLetteringOnMessageExpiration: true
+    #   enableBatchedOperations: true
+    #   enablePartitioning: false
+    #   enableExpress: false
   # Topics to create
   topics: []
     # - name: "events-topic"
+    #   maxSizeInMegabytes: 1024
+    #   requiresDuplicateDetection: false
+    #   defaultMessageTimeToLive: "P14D"
+    #   enableBatchedOperations: true
+    #   enablePartitioning: false
+    #   supportOrdering: false
+    #   enableExpress: false
     #   subscriptions:
     #     - name: "processor-sub"
     #       maxDeliveryCount: 10
+    #       lockDuration: "PT1M"
+    #       requiresSession: false
+    #       defaultMessageTimeToLive: "P14D"
+    #       deadLetteringOnMessageExpiration: true
+    #       deadLetteringOnFilterEvaluationExceptions: true
+    #       enableBatchedOperations: true
+
+# Azure App Configuration
+azureAppConfiguration:
+  enabled: false
+  # Create a new App Configuration store (requires Azure Service Operator)
+  create: false
+  # Name of the App Configuration store (defaults to release name if not set)
+  storeName: ""
+  # Resource group for the App Configuration (defaults to workloadIdentity.resourceGroup if not set)
+  resourceGroup: ""
+  # Azure location (defaults to workloadIdentity.location if not set)
+  location: ""
+  # Name of existing App Configuration store to use (when create is false)
+  configStoreName: ""
+  # App Configuration SKU (free or standard)
+  sku: "standard"
+  # Public network access (Enabled or Disabled)
+  publicNetworkAccess: "Enabled"
+  # Disable local authentication (requires Azure AD authentication only)
+  disableLocalAuth: true
+  # Enable purge protection (cannot be disabled once enabled)
+  enablePurgeProtection: false
+  # Soft delete retention period in days (1-7)
+  softDeleteRetentionInDays: 7
+  # Tags for the App Configuration store
+  tags:
+    managed-by: "helm"
 
 # Azure Redis Cache integration
 azureRedis:
