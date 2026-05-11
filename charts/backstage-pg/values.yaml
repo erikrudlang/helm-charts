@@ -271,7 +271,7 @@ postgresql:
   enabled: true
   # CloudNativePG cluster configuration (passed to subchart)
   cluster:
-    name: "backstage-pg"
+    name: "postgres-cluster"
     instances: 1
     storage:
       size: "10Gi"
