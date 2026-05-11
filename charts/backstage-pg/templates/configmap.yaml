@@ -7,48 +7,16 @@ metadata:
     {{- include "backstage-pg.labels" . | nindent 4 }}
 data:
   app-config.yaml: |
-    app:
-      title: {{ .Values.backstage.app.title }}
-      baseUrl: {{ .Values.backstage.baseUrl }}
+    {{- toYaml .Values.backstage | nindent 4 }}
     
-    organization:
-      name: {{ .Values.backstage.organization.name }}
-    
+    # Override database connection with cluster values
     backend:
-      baseUrl: {{ .Values.backstage.backendUrl }}
-      listen:
-        port: {{ .Values.backstage.backend.listen.port }}
-        host: {{ .Values.backstage.backend.listen.host }}
-      
-      cors:
-        origin: {{ .Values.backstage.backend.cors.origin }}
-        credentials: {{ .Values.backstage.backend.cors.credentials }}
-      
+      {{- toYaml .Values.backstage.backend | nindent 6 }}
       database:
-        client: {{ .Values.backstage.backend.database.client }}
+        client: pg
         connection:
           host: {{ include "backstage-pg.postgresql.host" . }}
-          port: {{ .Values.backstage.backend.database.connection.port }}
+          port: {{ .Values.backstage.backend.database.connection.port | default 5432 }}
           user: {{ .Values.postgresql.auth.username }}
           database: {{ .Values.postgresql.auth.database }}
-          ssl:
-            rejectUnauthorized: {{ .Values.backstage.backend.database.connection.ssl.rejectUnauthorized }}
-    
-    catalog:
-      {{- if .Values.backstage.catalog.locations }}
-      locations:
-        {{- toYaml .Values.backstage.catalog.locations | nindent 8 }}
-      {{- end }}
-      rules:
-        {{- toYaml .Values.backstage.catalog.rules | nindent 8 }}
-    
-    auth:
-      environment: {{ .Values.backstage.auth.environment }}
-    
-    techdocs:
-      builder: {{ .Values.backstage.techdocs.builder }}
-      generator:
-        runIn: {{ .Values.backstage.techdocs.generator.runIn }}
-      publisher:
-        type: {{ .Values.backstage.techdocs.publisher.type }}
 {{- end }}
