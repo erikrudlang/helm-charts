@@ -53,6 +53,33 @@ spec:
               key: password
         - name: NODE_ENV
           value: "production"
+        {{- if .Values.githubApp.enabled }}
+        - name: AUTH_ORG_APP_ID
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.githubApp.secretName }}
+              key: app-id
+        - name: AUTH_ORG_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.githubApp.secretName }}
+              key: client-id
+        - name: AUTH_ORG_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.githubApp.secretName }}
+              key: client-secret
+        - name: AUTH_ORG1_PRIVATE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.githubApp.secretName }}
+              key: private-key
+        - name: AUTH_ORG_WEBHOOK_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.githubApp.secretName }}
+              key: webhook-secret
+        {{- end }}
         {{- with .Values.extraEnvVars }}
         {{- toYaml . | nindent 8 }}
         {{- end }}

@@ -13,6 +13,18 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+# GitHub App authentication configuration
+githubApp:
+  enabled: false
+  # Name of the secret containing GitHub App credentials
+  secretName: backstage-github-app
+  # GitHub App credentials (will be base64 encoded automatically)
+  appId: ""
+  clientId: ""
+  clientSecret: ""
+  privateKey: ""
+  webhookSecret: ""
+
 # Number of Backstage replicas
 replicaCount: 1
 
