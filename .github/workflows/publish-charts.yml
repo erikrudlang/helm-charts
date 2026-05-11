@@ -33,6 +33,11 @@ jobs:
         with:
           version: ${{ env.HELM_VERSION }}
 
+      - name: Add Helm repositories
+        run: |
+          helm repo add cnpg https://cloudnative-pg.github.io/charts
+          helm repo update
+
       - name: Azure Login
         uses: azure/login@v1
         with:
@@ -49,6 +54,12 @@ jobs:
           for chart in $(find ${{ env.CHARTS_DIR }} -mindepth 1 -maxdepth 1 -type d); do
             chart_name=$(basename $chart)
             echo "Processing chart: $chart_name"
+            
+            # Update dependencies if Chart.yaml has dependencies
+            if grep -q "^dependencies:" "$chart/Chart.yaml" 2>/dev/null; then
+              echo "Updating dependencies for $chart_name"
+              helm dependency update $chart
+            fi
             
             # Package the chart
             helm package $chart --destination ./packaged-charts
