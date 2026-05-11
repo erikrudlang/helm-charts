@@ -283,7 +283,7 @@ postgresql:
         database: "backstage"
         owner: "backstage"
         secret:
-          name: "backstage-pg-app"  # Created by postgres-secret.yaml
+          name: ""
     
     # Monitoring
     monitoring:
