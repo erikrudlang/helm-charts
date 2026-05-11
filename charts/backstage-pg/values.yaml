@@ -280,8 +280,8 @@ postgresql:
     # Bootstrap configuration
     bootstrap:
       initdb:
-        database: "backstage"
-        owner: "backstage"
+        database: "app"
+        owner: "app"
         secret:
           name: ""
     
