@@ -17,10 +17,6 @@ sources:
   - https://github.com/backstage/backstage
   - https://cloudnative-pg.io/
 dependencies:
-  - name: cloudnative-pg
-    version: "0.22.1"
-    repository: https://cloudnative-pg.github.io/charts
-    condition: cnpg.enabled
   - name: cloudnativepg
     version: "0.1.0"
     repository: "file://charts/cloudnativepg"
