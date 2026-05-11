@@ -13,6 +13,13 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+# CloudNativePG Operator configuration
+cnpg:
+  # Install CloudNativePG operator as part of this chart
+  enabled: true
+  # Override operator configuration if needed
+  # config: {}
+
 # GitHub App authentication configuration
 githubApp:
   enabled: false
