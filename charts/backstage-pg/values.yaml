@@ -208,7 +208,7 @@ postgresql:
         database: "backstage"
         owner: "backstage"
         secret:
-          name: ""  # Will be created by the chart
+          name: "backstage-pg-app"  # Created by postgres-secret.yaml
     
     # Monitoring
     monitoring:
