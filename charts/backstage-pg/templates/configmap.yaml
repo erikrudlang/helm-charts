@@ -9,14 +9,4 @@ data:
   app-config.yaml: |
     {{- toYaml .Values.backstage | nindent 4 }}
     
-    # Override database connection with cluster values
-    backend:
-      {{- toYaml .Values.backstage.backend | nindent 6 }}
-      database:
-        client: pg
-        connection:
-          host: {{ include "backstage-pg.postgresql.host" . }}
-          port: {{ .Values.backstage.backend.database.connection.port | default 5432 }}
-          user: {{ .Values.postgresql.auth.username }}
-          database: {{ .Values.postgresql.auth.database }}
 {{- end }}

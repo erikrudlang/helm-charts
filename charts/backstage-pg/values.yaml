@@ -94,7 +94,9 @@ backstage:
       connect-src: ["'self'", 'http:', 'https:']
       # Content-Security-Policy directives follow the Helmet format: https://helmetjs.github.io/#reference
       # Default Helmet Content-Security-Policy values can be removed by setting the key to false
-
+    database:
+      client: better-sqlite3
+      connection: ':memory:'
     # see https://backstage.io/docs/ai/mcp-actions#actions-configuration for more details
     actions:
       pluginSources:
