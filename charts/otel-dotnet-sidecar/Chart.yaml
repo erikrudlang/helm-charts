@@ -2,7 +2,7 @@ apiVersion: v2
 name: otel-dotnet-sidecar
 description: OpenTelemetry Instrumentation and Collector CRDs for .NET applications using OpenTelemetry Operator
 type: application
-version: 0.3.0
+version: 0.4.0
 appVersion: "0.98.0"
 keywords:
   - opentelemetry
