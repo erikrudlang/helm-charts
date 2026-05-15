@@ -5,8 +5,8 @@ metadata:
   labels:
     {{- include "otel-dotnet-sidecar.labels" . | nindent 4 }}
 spec:
-  # mode: {{ .Values.otelCollector.mode }}
-  image: {{ .Values.otelCollector.image }}
+  mode: {{ .Values.otelCollector.mode }}
+  # image: {{ .Values.otelCollector.image }}
   
   resources:
     {{- toYaml .Values.otelCollector.resources | nindent 4 }}
