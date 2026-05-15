@@ -1,0 +1,33 @@
+{{- if .Values.instrumentation.enabled }}
+apiVersion: opentelemetry.io/v1alpha1
+kind: Instrumentation
+metadata:
+  name: {{ include "otel-dotnet-sidecar.fullname" . }}-{{ .Values.instrumentation.name }}
+  labels:
+    {{- include "otel-dotnet-sidecar.labels" . | nindent 4 }}
+spec:
+  exporter:
+    endpoint: {{ .Values.instrumentation.exporter.endpoint }}
+  
+  propagators:
+    {{- toYaml .Values.instrumentation.propagators | nindent 4 }}
+  
+  {{- if .Values.instrumentation.sampler }}
+  sampler:
+    type: {{ .Values.instrumentation.sampler.type }}
+    {{- if .Values.instrumentation.sampler.argument }}
+    argument: {{ .Values.instrumentation.sampler.argument | quote }}
+    {{- end }}
+  {{- end }}
+  
+  resource:
+    addK8sUIDAttributes: {{ .Values.instrumentation.resource.addK8sUIDAttributes }}
+  
+  dotnet:
+    # image: {{ .Values.instrumentation.dotnet.image }}
+    # env:
+    #   {{- range $key, $value := .Values.instrumentation.dotnet.env }}
+    #   - name: {{ $key }}
+    #     value: {{ $value | quote }}
+    #   {{- end }}
+{{- end }}

@@ -1,0 +1,2237 @@
+Name:         instrumentations.opentelemetry.io
+Namespace:    
+Labels:       app.kubernetes.io/name=opentelemetry-operator
+Annotations:  controller-gen.kubebuilder.io/version: v0.21.0
+API Version:  apiextensions.k8s.io/v1
+Kind:         CustomResourceDefinition
+Metadata:
+  Creation Timestamp:  2026-05-14T07:55:56Z
+  Generation:          1
+  Resource Version:    2568427
+  UID:                 bcde6e54-c133-47c9-a3c5-1b2a048533eb
+Spec:
+  Conversion:
+    Strategy:  None
+  Group:       opentelemetry.io
+  Names:
+    Kind:       Instrumentation
+    List Kind:  InstrumentationList
+    Plural:     instrumentations
+    Short Names:
+      otelinst
+      otelinsts
+    Singular:  instrumentation
+  Scope:       Namespaced
+  Versions:
+    Additional Printer Columns:
+      Json Path:  .metadata.creationTimestamp
+      Name:       Age
+      Type:       date
+      Json Path:  .spec.exporter.endpoint
+      Name:       Endpoint
+      Type:       string
+      Json Path:  .spec.sampler.type
+      Name:       Sampler
+      Type:       string
+      Json Path:  .spec.sampler.argument
+      Name:       Sampler Arg
+      Type:       string
+    Name:         v1alpha1
+    Schema:
+      openAPIV3Schema:
+        Properties:
+          API Version:
+            Type:  string
+          Kind:
+            Type:  string
+          Metadata:
+            Type:  object
+          Spec:
+            Properties:
+              Apache Httpd:
+                Properties:
+                  Attrs:
+                    Items:
+                      Properties:
+                        Name:
+                          Type:  string
+                        Value:
+                          Type:  string
+                        Value From:
+                          Properties:
+                            Config Map Key Ref:
+                              Properties:
+                                Key:
+                                  Type:  string
+                                Name:
+                                  Default:  
+                                  Type:     string
+                                Optional:
+                                  Type:  boolean
+                              Required:
+                                key
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            Field Ref:
+                              Properties:
+                                API Version:
+                                  Type:  string
+                                Field Path:
+                                  Type:  string
+                              Required:
+                                fieldPath
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            File Key Ref:
+                              Properties:
+                                Key:
+                                  Type:  string
+                                Optional:
+                                  Default:  false
+                                  Type:     boolean
+                                Path:
+                                  Type:  string
+                                Volume Name:
+                                  Type:  string
+                              Required:
+                                key
+                                path
+                                volumeName
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            Resource Field Ref:
+                              Properties:
+                                Container Name:
+                                  Type:  string
+                                Divisor:
+                                  Any Of:
+                                    Type:                              integer
+                                    Type:                              string
+                                  Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  X - Kubernetes - Int - Or - String:  true
+                                Resource:
+                                  Type:  string
+                              Required:
+                                resource
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            Secret Key Ref:
+                              Properties:
+                                Key:
+                                  Type:  string
+                                Name:
+                                  Default:  
+                                  Type:     string
+                                Optional:
+                                  Type:  boolean
+                              Required:
+                                key
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                          Type:                             object
+                      Required:
+                        name
+                      Type:  object
+                    Type:    array
+                  Config Path:
+                    Max Length:  256
+                    Pattern:     ^[A-Za-z0-9._/-]*$
+                    Type:        string
+                  Env:
+                    Items:
+                      Properties:
+                        Name:
+                          Type:  string
+                        Value:
+                          Type:  string
+                        Value From:
+                          Properties:
+                            Config Map Key Ref:
+                              Properties:
+                                Key:
+                                  Type:  string
+                                Name:
+                                  Default:  
+                                  Type:     string
+                                Optional:
+                                  Type:  boolean
+                              Required:
+                                key
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            Field Ref:
+                              Properties:
+                                API Version:
+                                  Type:  string
+                                Field Path:
+                                  Type:  string
+                              Required:
+                                fieldPath
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            File Key Ref:
+                              Properties:
+                                Key:
+                                  Type:  string
+                                Optional:
+                                  Default:  false
+                                  Type:     boolean
+                                Path:
+                                  Type:  string
+                                Volume Name:
+                                  Type:  string
+                              Required:
+                                key
+                                path
+                                volumeName
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            Resource Field Ref:
+                              Properties:
+                                Container Name:
+                                  Type:  string
+                                Divisor:
+                                  Any Of:
+                                    Type:                              integer
+                                    Type:                              string
+                                  Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  X - Kubernetes - Int - Or - String:  true
+                                Resource:
+                                  Type:  string
+                              Required:
+                                resource
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            Secret Key Ref:
+                              Properties:
+                                Key:
+                                  Type:  string
+                                Name:
+                                  Default:  
+                                  Type:     string
+                                Optional:
+                                  Type:  boolean
+                              Required:
+                                key
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                          Type:                             object
+                      Required:
+                        name
+                      Type:  object
+                    Type:    array
+                  Image:
+                    Type:  string
+                  Resource Requirements:
+                    Properties:
+                      Claims:
+                        Items:
+                          Properties:
+                            Name:
+                              Type:  string
+                            Request:
+                              Type:  string
+                          Required:
+                            name
+                          Type:  object
+                        Type:    array
+                        X - Kubernetes - List - Map - Keys:
+                          name
+                        X - Kubernetes - List - Type:  map
+                      Limits:
+                        Additional Properties:
+                          Any Of:
+                            Type:                              integer
+                            Type:                              string
+                          Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          X - Kubernetes - Int - Or - String:  true
+                        Type:                                  object
+                      Requests:
+                        Additional Properties:
+                          Any Of:
+                            Type:                              integer
+                            Type:                              string
+                          Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          X - Kubernetes - Int - Or - String:  true
+                        Type:                                  object
+                    Type:                                      object
+                  Version:
+                    Type:  string
+                  Volume Claim Template:
+                    Properties:
+                      Metadata:
+                        Properties:
+                          Annotations:
+                            Additional Properties:
+                              Type:  string
+                            Type:    object
+                          Finalizers:
+                            Items:
+                              Type:  string
+                            Type:    array
+                          Labels:
+                            Additional Properties:
+                              Type:  string
+                            Type:    object
+                          Name:
+                            Type:  string
+                          Namespace:
+                            Type:  string
+                        Type:      object
+                      Spec:
+                        Properties:
+                          Access Modes:
+                            Items:
+                              Type:                        string
+                            Type:                          array
+                            X - Kubernetes - List - Type:  atomic
+                          Data Source:
+                            Properties:
+                              API Group:
+                                Type:  string
+                              Kind:
+                                Type:  string
+                              Name:
+                                Type:  string
+                            Required:
+                              kind
+                              name
+                            Type:                         object
+                            X - Kubernetes - Map - Type:  atomic
+                          Data Source Ref:
+                            Properties:
+                              API Group:
+                                Type:  string
+                              Kind:
+                                Type:  string
+                              Name:
+                                Type:  string
+                              Namespace:
+                                Type:  string
+                            Required:
+                              kind
+                              name
+                            Type:  object
+                          Resources:
+                            Properties:
+                              Limits:
+                                Additional Properties:
+                                  Any Of:
+                                    Type:                              integer
+                                    Type:                              string
+                                  Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  X - Kubernetes - Int - Or - String:  true
+                                Type:                                  object
+                              Requests:
+                                Additional Properties:
+                                  Any Of:
+                                    Type:                              integer
+                                    Type:                              string
+                                  Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  X - Kubernetes - Int - Or - String:  true
+                                Type:                                  object
+                            Type:                                      object
+                          Selector:
+                            Properties:
+                              Match Expressions:
+                                Items:
+                                  Properties:
+                                    Key:
+                                      Type:  string
+                                    Operator:
+                                      Type:  string
+                                    Values:
+                                      Items:
+                                        Type:                        string
+                                      Type:                          array
+                                      X - Kubernetes - List - Type:  atomic
+                                  Required:
+                                    key
+                                    operator
+                                  Type:                        object
+                                Type:                          array
+                                X - Kubernetes - List - Type:  atomic
+                              Match Labels:
+                                Additional Properties:
+                                  Type:                   string
+                                Type:                     object
+                            Type:                         object
+                            X - Kubernetes - Map - Type:  atomic
+                          Storage Class Name:
+                            Type:  string
+                          Volume Attributes Class Name:
+                            Type:  string
+                          Volume Mode:
+                            Type:  string
+                          Volume Name:
+                            Type:  string
+                        Type:      object
+                    Required:
+                      spec
+                    Type:  object
+                  Volume Limit Size:
+                    Any Of:
+                      Type:                              integer
+                      Type:                              string
+                    Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                    X - Kubernetes - Int - Or - String:  true
+                Type:                                    object
+              Defaults:
+                Properties:
+                  Use Labels For Resource Attributes:
+                    Type:  boolean
+                Type:      object
+              Dotnet:
+                Properties:
+                  Env:
+                    Items:
+                      Properties:
+                        Name:
+                          Type:  string
+                        Value:
+                          Type:  string
+                        Value From:
+                          Properties:
+                            Config Map Key Ref:
+                              Properties:
+                                Key:
+                                  Type:  string
+                                Name:
+                                  Default:  
+                                  Type:     string
+                                Optional:
+                                  Type:  boolean
+                              Required:
+                                key
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            Field Ref:
+                              Properties:
+                                API Version:
+                                  Type:  string
+                                Field Path:
+                                  Type:  string
+                              Required:
+                                fieldPath
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            File Key Ref:
+                              Properties:
+                                Key:
+                                  Type:  string
+                                Optional:
+                                  Default:  false
+                                  Type:     boolean
+                                Path:
+                                  Type:  string
+                                Volume Name:
+                                  Type:  string
+                              Required:
+                                key
+                                path
+                                volumeName
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            Resource Field Ref:
+                              Properties:
+                                Container Name:
+                                  Type:  string
+                                Divisor:
+                                  Any Of:
+                                    Type:                              integer
+                                    Type:                              string
+                                  Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  X - Kubernetes - Int - Or - String:  true
+                                Resource:
+                                  Type:  string
+                              Required:
+                                resource
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            Secret Key Ref:
+                              Properties:
+                                Key:
+                                  Type:  string
+                                Name:
+                                  Default:  
+                                  Type:     string
+                                Optional:
+                                  Type:  boolean
+                              Required:
+                                key
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                          Type:                             object
+                      Required:
+                        name
+                      Type:  object
+                    Type:    array
+                  Image:
+                    Type:  string
+                  Resource Requirements:
+                    Properties:
+                      Claims:
+                        Items:
+                          Properties:
+                            Name:
+                              Type:  string
+                            Request:
+                              Type:  string
+                          Required:
+                            name
+                          Type:  object
+                        Type:    array
+                        X - Kubernetes - List - Map - Keys:
+                          name
+                        X - Kubernetes - List - Type:  map
+                      Limits:
+                        Additional Properties:
+                          Any Of:
+                            Type:                              integer
+                            Type:                              string
+                          Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          X - Kubernetes - Int - Or - String:  true
+                        Type:                                  object
+                      Requests:
+                        Additional Properties:
+                          Any Of:
+                            Type:                              integer
+                            Type:                              string
+                          Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          X - Kubernetes - Int - Or - String:  true
+                        Type:                                  object
+                    Type:                                      object
+                  Volume Claim Template:
+                    Properties:
+                      Metadata:
+                        Properties:
+                          Annotations:
+                            Additional Properties:
+                              Type:  string
+                            Type:    object
+                          Finalizers:
+                            Items:
+                              Type:  string
+                            Type:    array
+                          Labels:
+                            Additional Properties:
+                              Type:  string
+                            Type:    object
+                          Name:
+                            Type:  string
+                          Namespace:
+                            Type:  string
+                        Type:      object
+                      Spec:
+                        Properties:
+                          Access Modes:
+                            Items:
+                              Type:                        string
+                            Type:                          array
+                            X - Kubernetes - List - Type:  atomic
+                          Data Source:
+                            Properties:
+                              API Group:
+                                Type:  string
+                              Kind:
+                                Type:  string
+                              Name:
+                                Type:  string
+                            Required:
+                              kind
+                              name
+                            Type:                         object
+                            X - Kubernetes - Map - Type:  atomic
+                          Data Source Ref:
+                            Properties:
+                              API Group:
+                                Type:  string
+                              Kind:
+                                Type:  string
+                              Name:
+                                Type:  string
+                              Namespace:
+                                Type:  string
+                            Required:
+                              kind
+                              name
+                            Type:  object
+                          Resources:
+                            Properties:
+                              Limits:
+                                Additional Properties:
+                                  Any Of:
+                                    Type:                              integer
+                                    Type:                              string
+                                  Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  X - Kubernetes - Int - Or - String:  true
+                                Type:                                  object
+                              Requests:
+                                Additional Properties:
+                                  Any Of:
+                                    Type:                              integer
+                                    Type:                              string
+                                  Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  X - Kubernetes - Int - Or - String:  true
+                                Type:                                  object
+                            Type:                                      object
+                          Selector:
+                            Properties:
+                              Match Expressions:
+                                Items:
+                                  Properties:
+                                    Key:
+                                      Type:  string
+                                    Operator:
+                                      Type:  string
+                                    Values:
+                                      Items:
+                                        Type:                        string
+                                      Type:                          array
+                                      X - Kubernetes - List - Type:  atomic
+                                  Required:
+                                    key
+                                    operator
+                                  Type:                        object
+                                Type:                          array
+                                X - Kubernetes - List - Type:  atomic
+                              Match Labels:
+                                Additional Properties:
+                                  Type:                   string
+                                Type:                     object
+                            Type:                         object
+                            X - Kubernetes - Map - Type:  atomic
+                          Storage Class Name:
+                            Type:  string
+                          Volume Attributes Class Name:
+                            Type:  string
+                          Volume Mode:
+                            Type:  string
+                          Volume Name:
+                            Type:  string
+                        Type:      object
+                    Required:
+                      spec
+                    Type:  object
+                  Volume Limit Size:
+                    Any Of:
+                      Type:                              integer
+                      Type:                              string
+                    Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                    X - Kubernetes - Int - Or - String:  true
+                Type:                                    object
+              Env:
+                Items:
+                  Properties:
+                    Name:
+                      Type:  string
+                    Value:
+                      Type:  string
+                    Value From:
+                      Properties:
+                        Config Map Key Ref:
+                          Properties:
+                            Key:
+                              Type:  string
+                            Name:
+                              Default:  
+                              Type:     string
+                            Optional:
+                              Type:  boolean
+                          Required:
+                            key
+                          Type:                         object
+                          X - Kubernetes - Map - Type:  atomic
+                        Field Ref:
+                          Properties:
+                            API Version:
+                              Type:  string
+                            Field Path:
+                              Type:  string
+                          Required:
+                            fieldPath
+                          Type:                         object
+                          X - Kubernetes - Map - Type:  atomic
+                        File Key Ref:
+                          Properties:
+                            Key:
+                              Type:  string
+                            Optional:
+                              Default:  false
+                              Type:     boolean
+                            Path:
+                              Type:  string
+                            Volume Name:
+                              Type:  string
+                          Required:
+                            key
+                            path
+                            volumeName
+                          Type:                         object
+                          X - Kubernetes - Map - Type:  atomic
+                        Resource Field Ref:
+                          Properties:
+                            Container Name:
+                              Type:  string
+                            Divisor:
+                              Any Of:
+                                Type:                              integer
+                                Type:                              string
+                              Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                              X - Kubernetes - Int - Or - String:  true
+                            Resource:
+                              Type:  string
+                          Required:
+                            resource
+                          Type:                         object
+                          X - Kubernetes - Map - Type:  atomic
+                        Secret Key Ref:
+                          Properties:
+                            Key:
+                              Type:  string
+                            Name:
+                              Default:  
+                              Type:     string
+                            Optional:
+                              Type:  boolean
+                          Required:
+                            key
+                          Type:                         object
+                          X - Kubernetes - Map - Type:  atomic
+                      Type:                             object
+                  Required:
+                    name
+                  Type:  object
+                Type:    array
+              Exporter:
+                Properties:
+                  Endpoint:
+                    Type:  string
+                  Tls:
+                    Properties:
+                      ca_file:
+                        Type:  string
+                      cert_file:
+                        Type:  string
+                      Config Map Name:
+                        Type:  string
+                      key_file:
+                        Type:  string
+                      Secret Name:
+                        Type:  string
+                    Type:      object
+                Type:          object
+              Go:
+                Properties:
+                  Env:
+                    Items:
+                      Properties:
+                        Name:
+                          Type:  string
+                        Value:
+                          Type:  string
+                        Value From:
+                          Properties:
+                            Config Map Key Ref:
+                              Properties:
+                                Key:
+                                  Type:  string
+                                Name:
+                                  Default:  
+                                  Type:     string
+                                Optional:
+                                  Type:  boolean
+                              Required:
+                                key
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            Field Ref:
+                              Properties:
+                                API Version:
+                                  Type:  string
+                                Field Path:
+                                  Type:  string
+                              Required:
+                                fieldPath
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            File Key Ref:
+                              Properties:
+                                Key:
+                                  Type:  string
+                                Optional:
+                                  Default:  false
+                                  Type:     boolean
+                                Path:
+                                  Type:  string
+                                Volume Name:
+                                  Type:  string
+                              Required:
+                                key
+                                path
+                                volumeName
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            Resource Field Ref:
+                              Properties:
+                                Container Name:
+                                  Type:  string
+                                Divisor:
+                                  Any Of:
+                                    Type:                              integer
+                                    Type:                              string
+                                  Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  X - Kubernetes - Int - Or - String:  true
+                                Resource:
+                                  Type:  string
+                              Required:
+                                resource
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            Secret Key Ref:
+                              Properties:
+                                Key:
+                                  Type:  string
+                                Name:
+                                  Default:  
+                                  Type:     string
+                                Optional:
+                                  Type:  boolean
+                              Required:
+                                key
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                          Type:                             object
+                      Required:
+                        name
+                      Type:  object
+                    Type:    array
+                  Image:
+                    Type:  string
+                  Resource Requirements:
+                    Properties:
+                      Claims:
+                        Items:
+                          Properties:
+                            Name:
+                              Type:  string
+                            Request:
+                              Type:  string
+                          Required:
+                            name
+                          Type:  object
+                        Type:    array
+                        X - Kubernetes - List - Map - Keys:
+                          name
+                        X - Kubernetes - List - Type:  map
+                      Limits:
+                        Additional Properties:
+                          Any Of:
+                            Type:                              integer
+                            Type:                              string
+                          Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          X - Kubernetes - Int - Or - String:  true
+                        Type:                                  object
+                      Requests:
+                        Additional Properties:
+                          Any Of:
+                            Type:                              integer
+                            Type:                              string
+                          Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          X - Kubernetes - Int - Or - String:  true
+                        Type:                                  object
+                    Type:                                      object
+                  Security Context:
+                    Properties:
+                      Allow Privilege Escalation:
+                        Type:  boolean
+                      App Armor Profile:
+                        Properties:
+                          Localhost Profile:
+                            Type:  string
+                          Type:
+                            Type:  string
+                        Required:
+                          type
+                        Type:  object
+                      Capabilities:
+                        Properties:
+                          Add:
+                            Items:
+                              Type:                        string
+                            Type:                          array
+                            X - Kubernetes - List - Type:  atomic
+                          Drop:
+                            Items:
+                              Type:                        string
+                            Type:                          array
+                            X - Kubernetes - List - Type:  atomic
+                        Type:                              object
+                      Privileged:
+                        Type:  boolean
+                      Proc Mount:
+                        Type:  string
+                      Read Only Root Filesystem:
+                        Type:  boolean
+                      Run As Group:
+                        Format:  int64
+                        Type:    integer
+                      Run As Non Root:
+                        Type:  boolean
+                      Run As User:
+                        Format:  int64
+                        Type:    integer
+                      Se Linux Options:
+                        Properties:
+                          Level:
+                            Type:  string
+                          Role:
+                            Type:  string
+                          Type:
+                            Type:  string
+                          User:
+                            Type:  string
+                        Type:      object
+                      Seccomp Profile:
+                        Properties:
+                          Localhost Profile:
+                            Type:  string
+                          Type:
+                            Type:  string
+                        Required:
+                          type
+                        Type:  object
+                      Windows Options:
+                        Properties:
+                          Gmsa Credential Spec:
+                            Type:  string
+                          Gmsa Credential Spec Name:
+                            Type:  string
+                          Host Process:
+                            Type:  boolean
+                          Run As User Name:
+                            Type:  string
+                        Type:      object
+                    Type:          object
+                  Volume Claim Template:
+                    Properties:
+                      Metadata:
+                        Properties:
+                          Annotations:
+                            Additional Properties:
+                              Type:  string
+                            Type:    object
+                          Finalizers:
+                            Items:
+                              Type:  string
+                            Type:    array
+                          Labels:
+                            Additional Properties:
+                              Type:  string
+                            Type:    object
+                          Name:
+                            Type:  string
+                          Namespace:
+                            Type:  string
+                        Type:      object
+                      Spec:
+                        Properties:
+                          Access Modes:
+                            Items:
+                              Type:                        string
+                            Type:                          array
+                            X - Kubernetes - List - Type:  atomic
+                          Data Source:
+                            Properties:
+                              API Group:
+                                Type:  string
+                              Kind:
+                                Type:  string
+                              Name:
+                                Type:  string
+                            Required:
+                              kind
+                              name
+                            Type:                         object
+                            X - Kubernetes - Map - Type:  atomic
+                          Data Source Ref:
+                            Properties:
+                              API Group:
+                                Type:  string
+                              Kind:
+                                Type:  string
+                              Name:
+                                Type:  string
+                              Namespace:
+                                Type:  string
+                            Required:
+                              kind
+                              name
+                            Type:  object
+                          Resources:
+                            Properties:
+                              Limits:
+                                Additional Properties:
+                                  Any Of:
+                                    Type:                              integer
+                                    Type:                              string
+                                  Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  X - Kubernetes - Int - Or - String:  true
+                                Type:                                  object
+                              Requests:
+                                Additional Properties:
+                                  Any Of:
+                                    Type:                              integer
+                                    Type:                              string
+                                  Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  X - Kubernetes - Int - Or - String:  true
+                                Type:                                  object
+                            Type:                                      object
+                          Selector:
+                            Properties:
+                              Match Expressions:
+                                Items:
+                                  Properties:
+                                    Key:
+                                      Type:  string
+                                    Operator:
+                                      Type:  string
+                                    Values:
+                                      Items:
+                                        Type:                        string
+                                      Type:                          array
+                                      X - Kubernetes - List - Type:  atomic
+                                  Required:
+                                    key
+                                    operator
+                                  Type:                        object
+                                Type:                          array
+                                X - Kubernetes - List - Type:  atomic
+                              Match Labels:
+                                Additional Properties:
+                                  Type:                   string
+                                Type:                     object
+                            Type:                         object
+                            X - Kubernetes - Map - Type:  atomic
+                          Storage Class Name:
+                            Type:  string
+                          Volume Attributes Class Name:
+                            Type:  string
+                          Volume Mode:
+                            Type:  string
+                          Volume Name:
+                            Type:  string
+                        Type:      object
+                    Required:
+                      spec
+                    Type:  object
+                  Volume Limit Size:
+                    Any Of:
+                      Type:                              integer
+                      Type:                              string
+                    Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                    X - Kubernetes - Int - Or - String:  true
+                Type:                                    object
+              Image Pull Policy:
+                Type:  string
+              Init Container Security Context:
+                Properties:
+                  Allow Privilege Escalation:
+                    Type:  boolean
+                  App Armor Profile:
+                    Properties:
+                      Localhost Profile:
+                        Type:  string
+                      Type:
+                        Type:  string
+                    Required:
+                      type
+                    Type:  object
+                  Capabilities:
+                    Properties:
+                      Add:
+                        Items:
+                          Type:                        string
+                        Type:                          array
+                        X - Kubernetes - List - Type:  atomic
+                      Drop:
+                        Items:
+                          Type:                        string
+                        Type:                          array
+                        X - Kubernetes - List - Type:  atomic
+                    Type:                              object
+                  Privileged:
+                    Type:  boolean
+                  Proc Mount:
+                    Type:  string
+                  Read Only Root Filesystem:
+                    Type:  boolean
+                  Run As Group:
+                    Format:  int64
+                    Type:    integer
+                  Run As Non Root:
+                    Type:  boolean
+                  Run As User:
+                    Format:  int64
+                    Type:    integer
+                  Se Linux Options:
+                    Properties:
+                      Level:
+                        Type:  string
+                      Role:
+                        Type:  string
+                      Type:
+                        Type:  string
+                      User:
+                        Type:  string
+                    Type:      object
+                  Seccomp Profile:
+                    Properties:
+                      Localhost Profile:
+                        Type:  string
+                      Type:
+                        Type:  string
+                    Required:
+                      type
+                    Type:  object
+                  Windows Options:
+                    Properties:
+                      Gmsa Credential Spec:
+                        Type:  string
+                      Gmsa Credential Spec Name:
+                        Type:  string
+                      Host Process:
+                        Type:  boolean
+                      Run As User Name:
+                        Type:  string
+                    Type:      object
+                Type:          object
+              Java:
+                Properties:
+                  Env:
+                    Items:
+                      Properties:
+                        Name:
+                          Type:  string
+                        Value:
+                          Type:  string
+                        Value From:
+                          Properties:
+                            Config Map Key Ref:
+                              Properties:
+                                Key:
+                                  Type:  string
+                                Name:
+                                  Default:  
+                                  Type:     string
+                                Optional:
+                                  Type:  boolean
+                              Required:
+                                key
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            Field Ref:
+                              Properties:
+                                API Version:
+                                  Type:  string
+                                Field Path:
+                                  Type:  string
+                              Required:
+                                fieldPath
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            File Key Ref:
+                              Properties:
+                                Key:
+                                  Type:  string
+                                Optional:
+                                  Default:  false
+                                  Type:     boolean
+                                Path:
+                                  Type:  string
+                                Volume Name:
+                                  Type:  string
+                              Required:
+                                key
+                                path
+                                volumeName
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            Resource Field Ref:
+                              Properties:
+                                Container Name:
+                                  Type:  string
+                                Divisor:
+                                  Any Of:
+                                    Type:                              integer
+                                    Type:                              string
+                                  Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  X - Kubernetes - Int - Or - String:  true
+                                Resource:
+                                  Type:  string
+                              Required:
+                                resource
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            Secret Key Ref:
+                              Properties:
+                                Key:
+                                  Type:  string
+                                Name:
+                                  Default:  
+                                  Type:     string
+                                Optional:
+                                  Type:  boolean
+                              Required:
+                                key
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                          Type:                             object
+                      Required:
+                        name
+                      Type:  object
+                    Type:    array
+                  Extensions:
+                    Items:
+                      Properties:
+                        Dir:
+                          Type:  string
+                        Image:
+                          Type:  string
+                      Required:
+                        dir
+                        image
+                      Type:  object
+                    Type:    array
+                  Image:
+                    Type:  string
+                  Resources:
+                    Properties:
+                      Claims:
+                        Items:
+                          Properties:
+                            Name:
+                              Type:  string
+                            Request:
+                              Type:  string
+                          Required:
+                            name
+                          Type:  object
+                        Type:    array
+                        X - Kubernetes - List - Map - Keys:
+                          name
+                        X - Kubernetes - List - Type:  map
+                      Limits:
+                        Additional Properties:
+                          Any Of:
+                            Type:                              integer
+                            Type:                              string
+                          Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          X - Kubernetes - Int - Or - String:  true
+                        Type:                                  object
+                      Requests:
+                        Additional Properties:
+                          Any Of:
+                            Type:                              integer
+                            Type:                              string
+                          Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          X - Kubernetes - Int - Or - String:  true
+                        Type:                                  object
+                    Type:                                      object
+                  Volume Claim Template:
+                    Properties:
+                      Metadata:
+                        Properties:
+                          Annotations:
+                            Additional Properties:
+                              Type:  string
+                            Type:    object
+                          Finalizers:
+                            Items:
+                              Type:  string
+                            Type:    array
+                          Labels:
+                            Additional Properties:
+                              Type:  string
+                            Type:    object
+                          Name:
+                            Type:  string
+                          Namespace:
+                            Type:  string
+                        Type:      object
+                      Spec:
+                        Properties:
+                          Access Modes:
+                            Items:
+                              Type:                        string
+                            Type:                          array
+                            X - Kubernetes - List - Type:  atomic
+                          Data Source:
+                            Properties:
+                              API Group:
+                                Type:  string
+                              Kind:
+                                Type:  string
+                              Name:
+                                Type:  string
+                            Required:
+                              kind
+                              name
+                            Type:                         object
+                            X - Kubernetes - Map - Type:  atomic
+                          Data Source Ref:
+                            Properties:
+                              API Group:
+                                Type:  string
+                              Kind:
+                                Type:  string
+                              Name:
+                                Type:  string
+                              Namespace:
+                                Type:  string
+                            Required:
+                              kind
+                              name
+                            Type:  object
+                          Resources:
+                            Properties:
+                              Limits:
+                                Additional Properties:
+                                  Any Of:
+                                    Type:                              integer
+                                    Type:                              string
+                                  Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  X - Kubernetes - Int - Or - String:  true
+                                Type:                                  object
+                              Requests:
+                                Additional Properties:
+                                  Any Of:
+                                    Type:                              integer
+                                    Type:                              string
+                                  Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  X - Kubernetes - Int - Or - String:  true
+                                Type:                                  object
+                            Type:                                      object
+                          Selector:
+                            Properties:
+                              Match Expressions:
+                                Items:
+                                  Properties:
+                                    Key:
+                                      Type:  string
+                                    Operator:
+                                      Type:  string
+                                    Values:
+                                      Items:
+                                        Type:                        string
+                                      Type:                          array
+                                      X - Kubernetes - List - Type:  atomic
+                                  Required:
+                                    key
+                                    operator
+                                  Type:                        object
+                                Type:                          array
+                                X - Kubernetes - List - Type:  atomic
+                              Match Labels:
+                                Additional Properties:
+                                  Type:                   string
+                                Type:                     object
+                            Type:                         object
+                            X - Kubernetes - Map - Type:  atomic
+                          Storage Class Name:
+                            Type:  string
+                          Volume Attributes Class Name:
+                            Type:  string
+                          Volume Mode:
+                            Type:  string
+                          Volume Name:
+                            Type:  string
+                        Type:      object
+                    Required:
+                      spec
+                    Type:  object
+                  Volume Limit Size:
+                    Any Of:
+                      Type:                              integer
+                      Type:                              string
+                    Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                    X - Kubernetes - Int - Or - String:  true
+                Type:                                    object
+              Nginx:
+                Properties:
+                  Attrs:
+                    Items:
+                      Properties:
+                        Name:
+                          Type:  string
+                        Value:
+                          Type:  string
+                        Value From:
+                          Properties:
+                            Config Map Key Ref:
+                              Properties:
+                                Key:
+                                  Type:  string
+                                Name:
+                                  Default:  
+                                  Type:     string
+                                Optional:
+                                  Type:  boolean
+                              Required:
+                                key
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            Field Ref:
+                              Properties:
+                                API Version:
+                                  Type:  string
+                                Field Path:
+                                  Type:  string
+                              Required:
+                                fieldPath
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            File Key Ref:
+                              Properties:
+                                Key:
+                                  Type:  string
+                                Optional:
+                                  Default:  false
+                                  Type:     boolean
+                                Path:
+                                  Type:  string
+                                Volume Name:
+                                  Type:  string
+                              Required:
+                                key
+                                path
+                                volumeName
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            Resource Field Ref:
+                              Properties:
+                                Container Name:
+                                  Type:  string
+                                Divisor:
+                                  Any Of:
+                                    Type:                              integer
+                                    Type:                              string
+                                  Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  X - Kubernetes - Int - Or - String:  true
+                                Resource:
+                                  Type:  string
+                              Required:
+                                resource
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            Secret Key Ref:
+                              Properties:
+                                Key:
+                                  Type:  string
+                                Name:
+                                  Default:  
+                                  Type:     string
+                                Optional:
+                                  Type:  boolean
+                              Required:
+                                key
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                          Type:                             object
+                      Required:
+                        name
+                      Type:  object
+                    Type:    array
+                  Config File:
+                    Max Length:  256
+                    Pattern:     ^[A-Za-z0-9._/-]*$
+                    Type:        string
+                  Env:
+                    Items:
+                      Properties:
+                        Name:
+                          Type:  string
+                        Value:
+                          Type:  string
+                        Value From:
+                          Properties:
+                            Config Map Key Ref:
+                              Properties:
+                                Key:
+                                  Type:  string
+                                Name:
+                                  Default:  
+                                  Type:     string
+                                Optional:
+                                  Type:  boolean
+                              Required:
+                                key
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            Field Ref:
+                              Properties:
+                                API Version:
+                                  Type:  string
+                                Field Path:
+                                  Type:  string
+                              Required:
+                                fieldPath
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            File Key Ref:
+                              Properties:
+                                Key:
+                                  Type:  string
+                                Optional:
+                                  Default:  false
+                                  Type:     boolean
+                                Path:
+                                  Type:  string
+                                Volume Name:
+                                  Type:  string
+                              Required:
+                                key
+                                path
+                                volumeName
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            Resource Field Ref:
+                              Properties:
+                                Container Name:
+                                  Type:  string
+                                Divisor:
+                                  Any Of:
+                                    Type:                              integer
+                                    Type:                              string
+                                  Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  X - Kubernetes - Int - Or - String:  true
+                                Resource:
+                                  Type:  string
+                              Required:
+                                resource
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            Secret Key Ref:
+                              Properties:
+                                Key:
+                                  Type:  string
+                                Name:
+                                  Default:  
+                                  Type:     string
+                                Optional:
+                                  Type:  boolean
+                              Required:
+                                key
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                          Type:                             object
+                      Required:
+                        name
+                      Type:  object
+                    Type:    array
+                  Image:
+                    Type:  string
+                  Resource Requirements:
+                    Properties:
+                      Claims:
+                        Items:
+                          Properties:
+                            Name:
+                              Type:  string
+                            Request:
+                              Type:  string
+                          Required:
+                            name
+                          Type:  object
+                        Type:    array
+                        X - Kubernetes - List - Map - Keys:
+                          name
+                        X - Kubernetes - List - Type:  map
+                      Limits:
+                        Additional Properties:
+                          Any Of:
+                            Type:                              integer
+                            Type:                              string
+                          Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          X - Kubernetes - Int - Or - String:  true
+                        Type:                                  object
+                      Requests:
+                        Additional Properties:
+                          Any Of:
+                            Type:                              integer
+                            Type:                              string
+                          Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          X - Kubernetes - Int - Or - String:  true
+                        Type:                                  object
+                    Type:                                      object
+                  Volume Claim Template:
+                    Properties:
+                      Metadata:
+                        Properties:
+                          Annotations:
+                            Additional Properties:
+                              Type:  string
+                            Type:    object
+                          Finalizers:
+                            Items:
+                              Type:  string
+                            Type:    array
+                          Labels:
+                            Additional Properties:
+                              Type:  string
+                            Type:    object
+                          Name:
+                            Type:  string
+                          Namespace:
+                            Type:  string
+                        Type:      object
+                      Spec:
+                        Properties:
+                          Access Modes:
+                            Items:
+                              Type:                        string
+                            Type:                          array
+                            X - Kubernetes - List - Type:  atomic
+                          Data Source:
+                            Properties:
+                              API Group:
+                                Type:  string
+                              Kind:
+                                Type:  string
+                              Name:
+                                Type:  string
+                            Required:
+                              kind
+                              name
+                            Type:                         object
+                            X - Kubernetes - Map - Type:  atomic
+                          Data Source Ref:
+                            Properties:
+                              API Group:
+                                Type:  string
+                              Kind:
+                                Type:  string
+                              Name:
+                                Type:  string
+                              Namespace:
+                                Type:  string
+                            Required:
+                              kind
+                              name
+                            Type:  object
+                          Resources:
+                            Properties:
+                              Limits:
+                                Additional Properties:
+                                  Any Of:
+                                    Type:                              integer
+                                    Type:                              string
+                                  Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  X - Kubernetes - Int - Or - String:  true
+                                Type:                                  object
+                              Requests:
+                                Additional Properties:
+                                  Any Of:
+                                    Type:                              integer
+                                    Type:                              string
+                                  Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  X - Kubernetes - Int - Or - String:  true
+                                Type:                                  object
+                            Type:                                      object
+                          Selector:
+                            Properties:
+                              Match Expressions:
+                                Items:
+                                  Properties:
+                                    Key:
+                                      Type:  string
+                                    Operator:
+                                      Type:  string
+                                    Values:
+                                      Items:
+                                        Type:                        string
+                                      Type:                          array
+                                      X - Kubernetes - List - Type:  atomic
+                                  Required:
+                                    key
+                                    operator
+                                  Type:                        object
+                                Type:                          array
+                                X - Kubernetes - List - Type:  atomic
+                              Match Labels:
+                                Additional Properties:
+                                  Type:                   string
+                                Type:                     object
+                            Type:                         object
+                            X - Kubernetes - Map - Type:  atomic
+                          Storage Class Name:
+                            Type:  string
+                          Volume Attributes Class Name:
+                            Type:  string
+                          Volume Mode:
+                            Type:  string
+                          Volume Name:
+                            Type:  string
+                        Type:      object
+                    Required:
+                      spec
+                    Type:  object
+                  Volume Limit Size:
+                    Any Of:
+                      Type:                              integer
+                      Type:                              string
+                    Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                    X - Kubernetes - Int - Or - String:  true
+                Type:                                    object
+              Nodejs:
+                Properties:
+                  Env:
+                    Items:
+                      Properties:
+                        Name:
+                          Type:  string
+                        Value:
+                          Type:  string
+                        Value From:
+                          Properties:
+                            Config Map Key Ref:
+                              Properties:
+                                Key:
+                                  Type:  string
+                                Name:
+                                  Default:  
+                                  Type:     string
+                                Optional:
+                                  Type:  boolean
+                              Required:
+                                key
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            Field Ref:
+                              Properties:
+                                API Version:
+                                  Type:  string
+                                Field Path:
+                                  Type:  string
+                              Required:
+                                fieldPath
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            File Key Ref:
+                              Properties:
+                                Key:
+                                  Type:  string
+                                Optional:
+                                  Default:  false
+                                  Type:     boolean
+                                Path:
+                                  Type:  string
+                                Volume Name:
+                                  Type:  string
+                              Required:
+                                key
+                                path
+                                volumeName
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            Resource Field Ref:
+                              Properties:
+                                Container Name:
+                                  Type:  string
+                                Divisor:
+                                  Any Of:
+                                    Type:                              integer
+                                    Type:                              string
+                                  Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  X - Kubernetes - Int - Or - String:  true
+                                Resource:
+                                  Type:  string
+                              Required:
+                                resource
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            Secret Key Ref:
+                              Properties:
+                                Key:
+                                  Type:  string
+                                Name:
+                                  Default:  
+                                  Type:     string
+                                Optional:
+                                  Type:  boolean
+                              Required:
+                                key
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                          Type:                             object
+                      Required:
+                        name
+                      Type:  object
+                    Type:    array
+                  Image:
+                    Type:  string
+                  Resource Requirements:
+                    Properties:
+                      Claims:
+                        Items:
+                          Properties:
+                            Name:
+                              Type:  string
+                            Request:
+                              Type:  string
+                          Required:
+                            name
+                          Type:  object
+                        Type:    array
+                        X - Kubernetes - List - Map - Keys:
+                          name
+                        X - Kubernetes - List - Type:  map
+                      Limits:
+                        Additional Properties:
+                          Any Of:
+                            Type:                              integer
+                            Type:                              string
+                          Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          X - Kubernetes - Int - Or - String:  true
+                        Type:                                  object
+                      Requests:
+                        Additional Properties:
+                          Any Of:
+                            Type:                              integer
+                            Type:                              string
+                          Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          X - Kubernetes - Int - Or - String:  true
+                        Type:                                  object
+                    Type:                                      object
+                  Volume Claim Template:
+                    Properties:
+                      Metadata:
+                        Properties:
+                          Annotations:
+                            Additional Properties:
+                              Type:  string
+                            Type:    object
+                          Finalizers:
+                            Items:
+                              Type:  string
+                            Type:    array
+                          Labels:
+                            Additional Properties:
+                              Type:  string
+                            Type:    object
+                          Name:
+                            Type:  string
+                          Namespace:
+                            Type:  string
+                        Type:      object
+                      Spec:
+                        Properties:
+                          Access Modes:
+                            Items:
+                              Type:                        string
+                            Type:                          array
+                            X - Kubernetes - List - Type:  atomic
+                          Data Source:
+                            Properties:
+                              API Group:
+                                Type:  string
+                              Kind:
+                                Type:  string
+                              Name:
+                                Type:  string
+                            Required:
+                              kind
+                              name
+                            Type:                         object
+                            X - Kubernetes - Map - Type:  atomic
+                          Data Source Ref:
+                            Properties:
+                              API Group:
+                                Type:  string
+                              Kind:
+                                Type:  string
+                              Name:
+                                Type:  string
+                              Namespace:
+                                Type:  string
+                            Required:
+                              kind
+                              name
+                            Type:  object
+                          Resources:
+                            Properties:
+                              Limits:
+                                Additional Properties:
+                                  Any Of:
+                                    Type:                              integer
+                                    Type:                              string
+                                  Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  X - Kubernetes - Int - Or - String:  true
+                                Type:                                  object
+                              Requests:
+                                Additional Properties:
+                                  Any Of:
+                                    Type:                              integer
+                                    Type:                              string
+                                  Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  X - Kubernetes - Int - Or - String:  true
+                                Type:                                  object
+                            Type:                                      object
+                          Selector:
+                            Properties:
+                              Match Expressions:
+                                Items:
+                                  Properties:
+                                    Key:
+                                      Type:  string
+                                    Operator:
+                                      Type:  string
+                                    Values:
+                                      Items:
+                                        Type:                        string
+                                      Type:                          array
+                                      X - Kubernetes - List - Type:  atomic
+                                  Required:
+                                    key
+                                    operator
+                                  Type:                        object
+                                Type:                          array
+                                X - Kubernetes - List - Type:  atomic
+                              Match Labels:
+                                Additional Properties:
+                                  Type:                   string
+                                Type:                     object
+                            Type:                         object
+                            X - Kubernetes - Map - Type:  atomic
+                          Storage Class Name:
+                            Type:  string
+                          Volume Attributes Class Name:
+                            Type:  string
+                          Volume Mode:
+                            Type:  string
+                          Volume Name:
+                            Type:  string
+                        Type:      object
+                    Required:
+                      spec
+                    Type:  object
+                  Volume Limit Size:
+                    Any Of:
+                      Type:                              integer
+                      Type:                              string
+                    Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                    X - Kubernetes - Int - Or - String:  true
+                Type:                                    object
+              Propagators:
+                Items:
+                  Enum:
+                    tracecontext
+                    baggage
+                    b3
+                    b3multi
+                    jaeger
+                    xray
+                    ottrace
+                    none
+                  Type:  string
+                Type:    array
+              Python:
+                Properties:
+                  Env:
+                    Items:
+                      Properties:
+                        Name:
+                          Type:  string
+                        Value:
+                          Type:  string
+                        Value From:
+                          Properties:
+                            Config Map Key Ref:
+                              Properties:
+                                Key:
+                                  Type:  string
+                                Name:
+                                  Default:  
+                                  Type:     string
+                                Optional:
+                                  Type:  boolean
+                              Required:
+                                key
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            Field Ref:
+                              Properties:
+                                API Version:
+                                  Type:  string
+                                Field Path:
+                                  Type:  string
+                              Required:
+                                fieldPath
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            File Key Ref:
+                              Properties:
+                                Key:
+                                  Type:  string
+                                Optional:
+                                  Default:  false
+                                  Type:     boolean
+                                Path:
+                                  Type:  string
+                                Volume Name:
+                                  Type:  string
+                              Required:
+                                key
+                                path
+                                volumeName
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            Resource Field Ref:
+                              Properties:
+                                Container Name:
+                                  Type:  string
+                                Divisor:
+                                  Any Of:
+                                    Type:                              integer
+                                    Type:                              string
+                                  Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  X - Kubernetes - Int - Or - String:  true
+                                Resource:
+                                  Type:  string
+                              Required:
+                                resource
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                            Secret Key Ref:
+                              Properties:
+                                Key:
+                                  Type:  string
+                                Name:
+                                  Default:  
+                                  Type:     string
+                                Optional:
+                                  Type:  boolean
+                              Required:
+                                key
+                              Type:                         object
+                              X - Kubernetes - Map - Type:  atomic
+                          Type:                             object
+                      Required:
+                        name
+                      Type:  object
+                    Type:    array
+                  Image:
+                    Type:  string
+                  Resource Requirements:
+                    Properties:
+                      Claims:
+                        Items:
+                          Properties:
+                            Name:
+                              Type:  string
+                            Request:
+                              Type:  string
+                          Required:
+                            name
+                          Type:  object
+                        Type:    array
+                        X - Kubernetes - List - Map - Keys:
+                          name
+                        X - Kubernetes - List - Type:  map
+                      Limits:
+                        Additional Properties:
+                          Any Of:
+                            Type:                              integer
+                            Type:                              string
+                          Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          X - Kubernetes - Int - Or - String:  true
+                        Type:                                  object
+                      Requests:
+                        Additional Properties:
+                          Any Of:
+                            Type:                              integer
+                            Type:                              string
+                          Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                          X - Kubernetes - Int - Or - String:  true
+                        Type:                                  object
+                    Type:                                      object
+                  Volume Claim Template:
+                    Properties:
+                      Metadata:
+                        Properties:
+                          Annotations:
+                            Additional Properties:
+                              Type:  string
+                            Type:    object
+                          Finalizers:
+                            Items:
+                              Type:  string
+                            Type:    array
+                          Labels:
+                            Additional Properties:
+                              Type:  string
+                            Type:    object
+                          Name:
+                            Type:  string
+                          Namespace:
+                            Type:  string
+                        Type:      object
+                      Spec:
+                        Properties:
+                          Access Modes:
+                            Items:
+                              Type:                        string
+                            Type:                          array
+                            X - Kubernetes - List - Type:  atomic
+                          Data Source:
+                            Properties:
+                              API Group:
+                                Type:  string
+                              Kind:
+                                Type:  string
+                              Name:
+                                Type:  string
+                            Required:
+                              kind
+                              name
+                            Type:                         object
+                            X - Kubernetes - Map - Type:  atomic
+                          Data Source Ref:
+                            Properties:
+                              API Group:
+                                Type:  string
+                              Kind:
+                                Type:  string
+                              Name:
+                                Type:  string
+                              Namespace:
+                                Type:  string
+                            Required:
+                              kind
+                              name
+                            Type:  object
+                          Resources:
+                            Properties:
+                              Limits:
+                                Additional Properties:
+                                  Any Of:
+                                    Type:                              integer
+                                    Type:                              string
+                                  Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  X - Kubernetes - Int - Or - String:  true
+                                Type:                                  object
+                              Requests:
+                                Additional Properties:
+                                  Any Of:
+                                    Type:                              integer
+                                    Type:                              string
+                                  Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                                  X - Kubernetes - Int - Or - String:  true
+                                Type:                                  object
+                            Type:                                      object
+                          Selector:
+                            Properties:
+                              Match Expressions:
+                                Items:
+                                  Properties:
+                                    Key:
+                                      Type:  string
+                                    Operator:
+                                      Type:  string
+                                    Values:
+                                      Items:
+                                        Type:                        string
+                                      Type:                          array
+                                      X - Kubernetes - List - Type:  atomic
+                                  Required:
+                                    key
+                                    operator
+                                  Type:                        object
+                                Type:                          array
+                                X - Kubernetes - List - Type:  atomic
+                              Match Labels:
+                                Additional Properties:
+                                  Type:                   string
+                                Type:                     object
+                            Type:                         object
+                            X - Kubernetes - Map - Type:  atomic
+                          Storage Class Name:
+                            Type:  string
+                          Volume Attributes Class Name:
+                            Type:  string
+                          Volume Mode:
+                            Type:  string
+                          Volume Name:
+                            Type:  string
+                        Type:      object
+                    Required:
+                      spec
+                    Type:  object
+                  Volume Limit Size:
+                    Any Of:
+                      Type:                              integer
+                      Type:                              string
+                    Pattern:                             ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                    X - Kubernetes - Int - Or - String:  true
+                Type:                                    object
+              Resource:
+                Properties:
+                  addK8sUIDAttributes:
+                    Type:  boolean
+                  Resource Attributes:
+                    Additional Properties:
+                      Type:  string
+                    Type:    object
+                Type:        object
+              Sampler:
+                Properties:
+                  Argument:
+                    Type:  string
+                  Type:
+                    Enum:
+                      always_on
+                      always_off
+                      traceidratio
+                      parentbased_always_on
+                      parentbased_always_off
+                      parentbased_traceidratio
+                      jaeger_remote
+                      xray
+                    Type:  string
+                Type:      object
+            Type:          object
+          Status:
+            Properties:
+              Upgrade Blocked Versions:
+                Additional Properties:
+                  Type:  string
+                Type:    object
+            Type:        object
+        Type:            object
+    Served:              true
+    Storage:             true
+    Subresources:
+      Status:
+Status:
+  Accepted Names:
+    Kind:       Instrumentation
+    List Kind:  InstrumentationList
+    Plural:     instrumentations
+    Short Names:
+      otelinst
+      otelinsts
+    Singular:  instrumentation
+  Conditions:
+    Last Transition Time:  2026-05-14T07:55:56Z
+    Message:               no conflicts found
+    Reason:                NoConflicts
+    Status:                True
+    Type:                  NamesAccepted
+    Last Transition Time:  2026-05-14T07:55:56Z
+    Message:               the initial names have been accepted
+    Reason:                InitialNamesAccepted
+    Status:                True
+    Type:                  Established
+  Stored Versions:
+    v1alpha1
+Events:  <none>

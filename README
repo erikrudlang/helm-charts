@@ -28,6 +28,15 @@ az identity federated-credential create \
   --subject "repo:erikrudlang/helm-charts:ref:refs/heads/main" \
   --audiences "api://AzureADTokenExchange"
 
+Example reference for comparison:
+(az identity federated-credential create \
+  --name "aks-labs-capz-manager-credential" \
+  --identity-name "${MANAGED_IDENTITY_NAME}" \
+  --resource-group "${RESOURCE_GROUP}" \
+  --issuer "${AKS_OIDC_ISSUER_URL}" \
+  --subject "system:serviceaccount:azure-infrastructure-system:capz-manager" \
+  --audiences "api://AzureADTokenExchange" )
+
 Get values:
   export AZURE_CLIENT_ID=$(az identity show \
   --name "${MANAGED_IDENTITY_NAME}" \

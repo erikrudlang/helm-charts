@@ -1,0 +1,15 @@
+apiVersion: opentelemetry.io/v1alpha1
+kind: OpenTelemetryCollector
+metadata:
+  name: {{ include "otel-dotnet-sidecar.fullname" . }}-{{ .Values.otelCollector.name }}
+  labels:
+    {{- include "otel-dotnet-sidecar.labels" . | nindent 4 }}
+spec:
+  # mode: {{ .Values.otelCollector.mode }}
+  image: {{ .Values.otelCollector.image }}
+  
+  resources:
+    {{- toYaml .Values.otelCollector.resources | nindent 4 }}
+  
+  config: |
+    {{- .Values.otelCollector.config | nindent 4 }}

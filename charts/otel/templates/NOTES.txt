@@ -1,0 +1,49 @@
+OpenTelemetry resources have been created in namespace {{ .Release.Namespace }}:
+
+{{- if .Values.instrumentation.enabled }}
+1. Instrumentation:
+   Name: {{ include "otel-dotnet-sidecar.fullname" . }}-{{ .Values.instrumentation.name }}
+   
+   To verify the Instrumentation resource:
+   kubectl get instrumentation {{ include "otel-dotnet-sidecar.fullname" . }}-{{ .Values.instrumentation.name }} -n {{ .Release.Namespace }}
+{{- end }}
+
+2. OpenTelemetry Collector:
+   Name: {{ include "otel-dotnet-sidecar.fullname" . }}-{{ .Values.otelCollector.name }}
+   Mode: {{ .Values.otelCollector.mode }}
+   
+   To verify the OpenTelemetryCollector resource:
+   kubectl get opentelemetrycollector {{ include "otel-dotnet-sidecar.fullname" . }}-{{ .Values.otelCollector.name }} -n {{ .Release.Namespace }}
+
+3. To use these resources, annotate your application deployment:
+
+   For .NET auto-instrumentation:
+   instrumentation.opentelemetry.io/inject-dotnet: "{{ include "otel-dotnet-sidecar.fullname" . }}-{{ .Values.instrumentation.name }}"
+
+   For OTel Collector sidecar injection:
+   sidecar.opentelemetry.io/inject: "{{ include "otel-dotnet-sidecar.fullname" . }}-{{ .Values.otelCollector.name }}"
+
+   Example:
+   ---
+   apiVersion: apps/v1
+   kind: Deployment
+   metadata:
+     name: my-dotnet-app
+   spec:
+     template:
+       metadata:
+         annotations:
+           instrumentation.opentelemetry.io/inject-dotnet: "{{ include "otel-dotnet-sidecar.fullname" . }}-{{ .Values.instrumentation.name }}"
+           sidecar.opentelemetry.io/inject: "{{ include "otel-dotnet-sidecar.fullname" . }}-{{ .Values.otelCollector.name }}"
+       spec:
+         containers:
+         - name: my-app
+           image: my-dotnet-app:latest
+
+4. The OpenTelemetry Operator will automatically inject:
+   - Init container with .NET auto-instrumentation
+   - OTel Collector sidecar container
+   - Required environment variables and volume mounts
+
+5. Monitor the collector logs:
+   kubectl logs -l app.kubernetes.io/managed-by=opentelemetry-operator -c otc-container -n {{ .Release.Namespace }}
