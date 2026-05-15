@@ -69,17 +69,16 @@ instrumentation:
     endpoint: http://localhost:4318
   # .NET specific configuration
   dotnet:
-    # image: ghcr.io/open-telemetry/opentelemetry-dotnet-instrumentation/autoinstrumentation-dotnet:1.3.0
-    # Environment variables for .NET instrumentation
-    # env:
-    #   OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
-    #   OTEL_DOTNET_AUTO_TRACES_ENABLED: "true"
-    #   OTEL_DOTNET_AUTO_METRICS_ENABLED: "true"
-    #   OTEL_DOTNET_AUTO_LOGS_ENABLED: "true"
-    #   # Instrumentation for common libraries
-    #   OTEL_DOTNET_AUTO_TRACES_ASPNETCORE_INSTRUMENTATION_ENABLED: "true"
-    #   OTEL_DOTNET_AUTO_TRACES_HTTPCLIENT_INSTRUMENTATION_ENABLED: "true"
-    #   OTEL_DOTNET_AUTO_TRACES_SQLCLIENT_INSTRUMENTATION_ENABLED: "true"
+    image: ghcr.io/open-telemetry/opentelemetry-dotnet-instrumentation/autoinstrumentation-dotnet:1.3.0
+    env:
+      OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
+      OTEL_DOTNET_AUTO_TRACES_ENABLED: "true"
+      OTEL_DOTNET_AUTO_METRICS_ENABLED: "true"
+      OTEL_DOTNET_AUTO_LOGS_ENABLED: "true"
+      # Instrumentation for common libraries
+      OTEL_DOTNET_AUTO_TRACES_ASPNETCORE_INSTRUMENTATION_ENABLED: "true"
+      OTEL_DOTNET_AUTO_TRACES_HTTPCLIENT_INSTRUMENTATION_ENABLED: "true"
+      OTEL_DOTNET_AUTO_TRACES_SQLCLIENT_INSTRUMENTATION_ENABLED: "true"
   # Resource attributes
   resource:
     addK8sUIDAttributes: true
